@@ -1,0 +1,34 @@
+# CODEOWNERS — FTH Trading Broker-Dealer Platform
+# These owners will be automatically requested for review on PRs
+
+# ── Global ───────────────────────────────────────────────────────
+*                           @FTHTrading/engineering-leads
+
+# ── Trading Domain ───────────────────────────────────────────────
+/services/order-gateway/    @FTHTrading/trading-team
+/services/oms-engine/       @FTHTrading/trading-team
+/services/ems-engine/       @FTHTrading/trading-team
+/services/smart-router/     @FTHTrading/trading-team
+/services/market-maker/     @FTHTrading/trading-team
+/services/fix-bridge/       @FTHTrading/trading-team
+/packages/fix-protocol/     @FTHTrading/trading-team
+
+# ── Risk & Compliance ───────────────────────────────────────────
+/services/risk-engine/      @FTHTrading/risk-team @FTHTrading/compliance
+/services/net-capital/      @FTHTrading/compliance
+/services/customer-protection/ @FTHTrading/compliance
+/services/aml-engine/       @FTHTrading/compliance @FTHTrading/aml-team
+/services/surveillance/     @FTHTrading/compliance
+/services/reg-reporting/    @FTHTrading/compliance
+/packages/compliance-rules/ @FTHTrading/compliance
+
+# ── Infrastructure ──────────────────────────────────────────────
+/infrastructure/            @FTHTrading/platform-team
+/.github/                   @FTHTrading/platform-team
+/docker-compose.yml         @FTHTrading/platform-team
+
+# ── Security-Sensitive ──────────────────────────────────────────
+/packages/auth/             @FTHTrading/security-team
+/SECURITY.md                @FTHTrading/security-team
+*.pem                       @FTHTrading/security-team
+*.key                       @FTHTrading/security-team
