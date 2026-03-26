@@ -4,19 +4,22 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: {
-    default: 'UnyKorn Broker-Dealer Services',
-    template: '%s — UnyKorn Broker-Dealer',
+    default: 'Moody Capital Markets Operating System',
+    template: '%s — Moody Capital',
   },
   description:
-    'Institutional broker-dealer operations, exempt offering distribution, and regulated digital securities placement services.',
+    'A compliance-first broker-dealer platform for origination, investor gating, subscription execution, rights offerings, debt administration, custody-connected settlement, controlled digital issuance, and post-close lifecycle management.',
 }
 
 const NAV_LINKS = [
   { href: '/', label: 'Overview' },
+  { href: '/platform', label: 'Platform' },
+  { href: '/technology', label: 'Technology' },
   { href: '/services', label: 'Services' },
-  { href: '/insights', label: 'Insights' },
-  { href: '/operations', label: 'Operations' },
+  { href: '/markets', label: 'Markets' },
   { href: '/compliance', label: 'Compliance' },
+  { href: '/operations', label: 'Operations' },
+  { href: '/insights', label: 'Insights' },
   { href: '/contact', label: 'Contact' },
 ] as const
 
@@ -46,8 +49,7 @@ export default function BrokerDealerLayout({ children }: { children: React.React
               letterSpacing: '-0.02em',
             }}
           >
-            <span style={{ color: 'var(--color-gold)' }}>UnyKorn</span>{' '}
-            Broker-Dealer
+            <span style={{ color: 'var(--color-gold)' }}>Moody</span>{' '}Capital
           </Link>
 
           <nav style={{ display: 'flex', gap: '1.75rem', fontSize: '0.85rem' }}>
@@ -86,13 +88,13 @@ export default function BrokerDealerLayout({ children }: { children: React.React
           }}
         >
           <div>
-            <p style={{ fontWeight: 600, marginBottom: '0.5rem' }}>UnyKorn Capital Markets</p>
-            <p>Regulated Digital Securities Infrastructure</p>
+            <p style={{ fontWeight: 600, marginBottom: '0.5rem' }}>Moody Capital Markets Operating System</p>
+            <p>Compliance-First Broker-Dealer Infrastructure</p>
           </div>
           <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
             <Link href="/disclosures">Disclosures</Link>
             <Link href="/compliance">Compliance</Link>
-            <Link href="https://unykorn.org">Platform</Link>
+            <Link href="/platform">Platform</Link>
           </div>
         </footer>
 
@@ -109,12 +111,13 @@ export default function BrokerDealerLayout({ children }: { children: React.React
           }}
         >
           <p>
-            Securities offered through UnyKorn Capital Markets are subject to applicable federal and
-            state securities laws. Participation is limited to qualified and accredited investors as
-            defined under Regulation D of the Securities Act of 1933. All offerings are made pursuant
-            to available exemptions and are not registered with the SEC or any state securities
-            commission. Investment in private securities involves significant risk including loss of
-            principal. Past performance does not guarantee future results.
+            Securities offered through Moody Capital are subject to applicable federal and state
+            securities laws. Participation is limited to qualified and accredited investors as defined
+            under Regulation D of the Securities Act of 1933, Regulation A+, and Regulation S. All
+            offerings are made pursuant to available exemptions and are not registered with the SEC
+            or any state securities commission. Investment in private securities involves significant
+            risk including possible loss of principal. Past performance does not guarantee future
+            results. This platform is operated by a registered broker-dealer and FINRA member firm.
           </p>
         </div>
       </body>
