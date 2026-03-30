@@ -1,5 +1,3 @@
-import Link from 'next/link'
-
 const CUSTOMERS = [
   {
     id: 'CX-1041',
