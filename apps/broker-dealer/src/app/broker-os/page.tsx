@@ -1,356 +1,202 @@
-import Link from 'next/link'
+const CARD = {
+  background: 'var(--color-card, #0c0c10)',
+  border: '1px solid var(--color-border)',
+  borderRadius: 6,
+  padding: '1.5rem 1.75rem',
+} as const
 
-const KPI_CARDS = [
-  {
-    label: 'Active Deals',
-    value: '47',
-    delta: '+8 this month',
-    deltaPositive: true,
-    color: '#5b6ef4',
-    sub: '12 pending close',
-  },
-  {
-    label: 'Customers',
-    value: '214',
-    delta: '+19 this quarter',
-    deltaPositive: true,
-    color: '#10b981',
-    sub: '38 up for renewal',
-  },
-  {
-    label: 'Renewal Alerts',
-    value: '23',
-    delta: '6 critical (<30d)',
-    deltaPositive: false,
-    color: '#f59e0b',
-    sub: '17 within 90 days',
-  },
-  {
-    label: 'Pending Commission',
-    value: '$184,320',
-    delta: '+$22K from last month',
-    deltaPositive: true,
-    color: '#d4a843',
-    sub: '$61K this quarter',
-  },
-] as const
-
-const PIPELINE_STAGES = [
-  { stage: 'Prospect', count: 34, value: '$4.2M', color: '#8888a0' },
-  { stage: 'Qualified', count: 22, value: '$7.8M', color: '#5b6ef4' },
-  { stage: 'Proposal', count: 15, value: '$11.4M', color: '#06b6d4' },
-  { stage: 'Negotiation', count: 8, value: '$6.1M', color: '#f59e0b' },
-  { stage: 'Contracting', count: 5, value: '$4.9M', color: '#e05a2b' },
-  { stage: 'Closed Won', count: 47, value: '$38.2M', color: '#10b981' },
-] as const
-
-const RECENT_DEALS = [
-  {
-    id: 'DEAL-2847',
-    customer: 'Nexus Industrial Corp',
-    type: 'Natural Gas — Fixed',
-    term: '24 mo',
-    value: '$1.2M',
-    stage: 'Contracting',
-    stageColor: '#e05a2b',
-    rwa: true,
-    daysOld: 3,
-  },
-  {
-    id: 'DEAL-2841',
-    customer: 'SunPath Manufacturing',
-    type: 'Solar PPA',
-    term: '120 mo',
-    value: '$8.4M',
-    stage: 'Proposal',
-    stageColor: '#06b6d4',
-    rwa: true,
-    daysOld: 7,
-  },
-  {
-    id: 'DEAL-2835',
-    customer: 'Ridgeline Hotels LLC',
-    type: 'Electricity — Market Index',
-    term: '12 mo',
-    value: '$340K',
-    stage: 'Negotiation',
-    stageColor: '#f59e0b',
-    rwa: false,
-    daysOld: 11,
-  },
-  {
-    id: 'DEAL-2829',
-    customer: 'Coastal Logistics Group',
-    type: 'REC Portfolio',
-    term: '36 mo',
-    value: '$2.1M',
-    stage: 'Qualified',
-    stageColor: '#5b6ef4',
-    rwa: true,
-    daysOld: 14,
-  },
-  {
-    id: 'DEAL-2821',
-    customer: 'Prairie Wind LLC',
-    type: 'Wind PPA + Carbon Credits',
-    term: '240 mo',
-    value: '$22.7M',
-    stage: 'Proposal',
-    stageColor: '#06b6d4',
-    rwa: true,
-    daysOld: 18,
-  },
-] as const
-
-const RENEWAL_ALERTS = [
-  {
-    customer: 'Hartwell Steel Works',
-    contract: 'Natural Gas Fixed Price',
-    expires: '2026-04-28',
-    daysLeft: 29,
-    urgency: 'critical',
-    annualValue: '$680K',
-  },
-  {
-    customer: 'Metro Transit Authority',
-    contract: 'Electricity — Blended Rate',
-    expires: '2026-05-15',
-    daysLeft: 46,
-    urgency: 'high',
-    annualValue: '$1.4M',
-  },
-  {
-    customer: 'Cascade Brewing Co.',
-    contract: 'Renewable Energy Bundle',
-    expires: '2026-05-31',
-    daysLeft: 62,
-    urgency: 'medium',
-    annualValue: '$210K',
-  },
-  {
-    customer: 'TechPark Realty Fund',
-    contract: 'Solar PPA + RECs',
-    expires: '2026-06-30',
-    daysLeft: 91,
-    urgency: 'low',
-    annualValue: '$3.2M',
-  },
-] as const
-
-const COMMISSION_RECENT = [
-  { deal: 'DEAL-2803', customer: 'Blue Ridge Energy Coop', type: 'Natural Gas', amount: '$14,400', status: 'paid', date: '2026-03-15' },
-  { deal: 'DEAL-2791', customer: 'Irongate Logistics', type: 'Electricity', amount: '$6,800', status: 'paid', date: '2026-03-08' },
-  { deal: 'DEAL-2784', customer: 'NovaTech Campus', type: 'Solar PPA', amount: '$48,200', status: 'pending', date: '2026-03-01' },
-  { deal: 'DEAL-2778', customer: 'Highpoint Distribution', type: 'Wind REC', amount: '$9,100', status: 'pending', date: '2026-02-22' },
-  { deal: 'DEAL-2766', customer: 'Orion Manufacturing', type: 'Gas + Carbon', amount: '$22,400', status: 'pending', date: '2026-02-14' },
-] as const
-
-const AGENT_ACTIVITY = [
-  { agent: 'Renewal Scout', action: 'Flagged 3 accounts expiring <30d', time: '4m ago', status: 'active' },
-  { agent: 'Quote Builder', action: 'Generated 7 price proposals for NovaTech', time: '22m ago', status: 'active' },
-  { agent: 'Compliance Watch', action: 'KYC refresh required for 2 customers', time: '1h ago', status: 'alert' },
-  { agent: 'Market Intel', action: 'Gas spot price up 4.2% — 8 deals at risk', time: '3h ago', status: 'alert' },
-  { agent: 'RWA Tokenizer', action: 'Prairie Wind PPA tokenization queued', time: '6h ago', status: 'active' },
-] as const
-
-function urgencyBadge(u: string) {
-  const map: Record<string, { bg: string; color: string }> = {
-    critical: { bg: 'rgba(239,68,68,0.12)', color: '#ef4444' },
-    high: { bg: 'rgba(245,158,11,0.12)', color: '#f59e0b' },
-    medium: { bg: 'rgba(91,110,244,0.12)', color: '#5b6ef4' },
-    low: { bg: 'rgba(136,136,160,0.1)', color: '#8888a0' },
-  }
-  return map[u] ?? map.low
+const MONO: React.CSSProperties = {
+  fontFamily: 'var(--font-mono)',
 }
 
-export const metadata = { title: 'Dashboard — Broker OS' }
+const KPIs = [
+  {
+    label: 'Total RWA AUM Tokenized',
+    value: '$127.4M',
+    sub: '+$8.2M this week',
+    trend: 'up',
+    color: 'var(--color-text-primary)',
+  },
+  {
+    label: 'Stablecoin Volume (30d)',
+    value: '$43.1M',
+    sub: 'USDC · USDF · USDT',
+    trend: 'up',
+    color: 'var(--color-stable)',
+  },
+  {
+    label: 'Active Offerings',
+    value: '14',
+    sub: '9 Reg D · 5 Reg S',
+    trend: 'neutral',
+    color: 'var(--color-text-primary)',
+  },
+  {
+    label: 'Pending Settlements',
+    value: '6',
+    sub: '$2.3M queued',
+    trend: 'neutral',
+    color: 'var(--color-warning)',
+  },
+  {
+    label: 'Qualified Investors',
+    value: '1,847',
+    sub: '+23 this month',
+    trend: 'up',
+    color: 'var(--color-text-primary)',
+  },
+  {
+    label: 'Tokens Issued',
+    value: '38',
+    sub: '12 chains · $2.8M avg',
+    trend: 'up',
+    color: 'var(--color-chain)',
+  },
+]
+
+const TOKEN_PORTFOLIO = [
+  { ticker: 'FTHRE-01', name: 'FTH CRE Tower A', type: 'Real Estate', chain: 'ETH', aum: '$24.5M', yield_: '6.8%', investors: 312, status: 'ACTIVE' },
+  { ticker: 'NRGX-07', name: 'Permian Basin Energy Rights', type: 'Energy', chain: 'POLYGON', aum: '$18.2M', yield_: '9.2%', investors: 198, status: 'ACTIVE' },
+  { ticker: 'TFIN-03', name: 'Trade Finance Pool III', type: 'Trade Finance', chain: 'XRP', aum: '$11.0M', yield_: '7.5%', investors: 87, status: 'ACTIVE' },
+  { ticker: 'CMDTY-02', name: 'Gulf Coast Commodity Basket', type: 'Commodity', chain: 'ATP', aum: '$8.7M', yield_: '5.4%', investors: 64, status: 'ACTIVE' },
+  { ticker: 'FTHRE-02', name: 'FTH Industrial Park B', type: 'Real Estate', chain: 'ETH', aum: '$15.9M', yield_: '6.1%', investors: 241, status: 'FUNDING' },
+  { ticker: 'PVFM-01', name: 'Solar Farm Revenue Bond', type: 'Infrastructure', chain: 'XLM', aum: '$6.3M', yield_: '8.0%', investors: 55, status: 'FUNDING' },
+]
+
+const SETTLEMENT_QUEUE = [
+  { id: 'STL-2891', investor: 'Blackwood Capital LP', offering: 'FTHRE-01', amount: '$750,000', stable: 'USDC', chain: 'ETH', eta: '< 2 min' },
+  { id: 'STL-2892', investor: 'Nevada Pension Fund', offering: 'NRGX-07', amount: '$1,200,000', stable: 'USDF', chain: 'ATP', eta: '< 5 min' },
+  { id: 'STL-2893', investor: 'Meridian Family Office', offering: 'TFIN-03', amount: '$300,000', stable: 'USDT', chain: 'XRP', eta: 'Pending KYC' },
+]
+
+const CHAIN_ACTIVITY = [
+  { chain: 'Apostle Chain (ATP)', txCount: 1842, vol: '$18.4M', status: 'LIVE' },
+  { chain: 'Ethereum', txCount: 624, vol: '$40.4M', status: 'LIVE' },
+  { chain: 'Polygon', txCount: 3101, vol: '$18.2M', status: 'LIVE' },
+  { chain: 'XRPL', txCount: 412, vol: '$11.0M', status: 'LIVE' },
+  { chain: 'Stellar', txCount: 198, vol: '$6.3M', status: 'LIVE' },
+]
 
 export default function BrokerOSDashboard() {
+  const now = new Date().toLocaleString('en-US', { hour12: false, timeZone: 'America/New_York' })
+
   return (
-    <div>
+    <div style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-sans)' }}>
+
       {/* Page header */}
-      <div style={{ marginBottom: '1.75rem' }}>
-        <div
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            background: 'rgba(212,168,67,0.08)',
-            border: '1px solid rgba(212,168,67,0.2)',
-            borderRadius: 4,
-            padding: '0.2rem 0.65rem',
-            fontSize: '0.65rem',
-            fontWeight: 700,
-            color: 'var(--color-gold)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.08em',
-            marginBottom: '0.6rem',
-          }}
-        >
-          <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--color-gold)', display: 'inline-block' }} />
-          Broker OS — Deal Origination &amp; Servicing
+      <div style={{ marginBottom: '2rem', display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+        <div>
+          <h1
+            style={{
+              fontSize: '1.5rem',
+              fontWeight: 800,
+              letterSpacing: '-0.03em',
+              color: '#ffffff',
+              marginBottom: '0.3rem',
+            }}
+          >
+            Capital Markets Dashboard
+          </h1>
+          <p style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>
+            Real-world asset tokenization &amp; stablecoin settlement infrastructure
+          </p>
         </div>
-        <h1 style={{ fontSize: '1.5rem', fontWeight: 800, letterSpacing: '-0.02em' }}>Dashboard</h1>
-        <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.85rem', marginTop: '0.25rem' }}>
-          Energy &amp; RWA brokerage operations · As of March 30, 2026
-        </p>
+        <div style={{ textAlign: 'right' }}>
+          <div style={{ fontSize: '0.65rem', color: 'var(--color-text-secondary)', ...MONO }}>LIVE · {now} ET</div>
+          <div
+            style={{
+              marginTop: '0.375rem',
+              fontSize: '0.65rem',
+              fontWeight: 700,
+              color: 'var(--color-chain)',
+              ...MONO,
+              letterSpacing: '0.05em',
+            }}
+          >
+            5 CHAINS ACTIVE
+          </div>
+        </div>
       </div>
 
-      {/* KPI Cards */}
+      {/* KPI grid */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
-          gap: '1rem',
-          marginBottom: '1.75rem',
+          gridTemplateColumns: 'repeat(6, 1fr)',
+          gap: '0.75rem',
+          marginBottom: '2rem',
         }}
       >
-        {KPI_CARDS.map((card) => (
-          <div
-            key={card.label}
-            style={{
-              background: 'var(--color-surface)',
-              border: '1px solid var(--color-border)',
-              borderTop: `2px solid ${card.color}`,
-              borderRadius: 8,
-              padding: '1.25rem',
-            }}
-          >
-            <div style={{ fontSize: '0.72rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: 'var(--color-text-secondary)', marginBottom: '0.6rem' }}>
-              {card.label}
+        {KPIs.map((k) => (
+          <div key={k.label} style={{ ...CARD, padding: '1.125rem 1.25rem' }}>
+            <div
+              style={{
+                fontSize: '0.6rem',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                color: 'var(--color-text-secondary)',
+                marginBottom: '0.6rem',
+              }}
+            >
+              {k.label}
             </div>
-            <div style={{ fontSize: '1.9rem', fontWeight: 800, letterSpacing: '-0.02em', color: card.color, lineHeight: 1 }}>
-              {card.value}
+            <div
+              style={{
+                fontSize: '1.5rem',
+                fontWeight: 800,
+                color: k.color,
+                letterSpacing: '-0.04em',
+                lineHeight: 1,
+                marginBottom: '0.4rem',
+                ...MONO,
+              }}
+            >
+              {k.value}
             </div>
-            <div style={{ marginTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
-              <div style={{ fontSize: '0.75rem', color: card.deltaPositive ? 'var(--color-success)' : 'var(--color-warning)', fontWeight: 600 }}>
-                {card.deltaPositive ? '▲' : '▼'} {card.delta}
-              </div>
-              <div style={{ fontSize: '0.72rem', color: 'var(--color-text-secondary)' }}>{card.sub}</div>
+            <div style={{ fontSize: '0.7rem', color: 'var(--color-text-secondary)' }}>
+              {k.trend === 'up' && (
+                <span style={{ color: 'var(--color-chain)', marginRight: '0.25rem' }}>+</span>
+              )}
+              {k.sub}
             </div>
           </div>
         ))}
       </div>
 
-      {/* Main grid: Pipeline + Renewals + Commissions */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.25rem' }}>
+      {/* Two-column: token portfolio + settlement queue */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 400px', gap: '1.25rem', marginBottom: '1.25rem' }}>
 
-        {/* Deal Pipeline funnel */}
-        <div style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 8, overflow: 'hidden' }}>
-          <div style={{ padding: '1rem 1.25rem', borderBottom: '1px solid var(--color-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        {/* Token portfolio table */}
+        <div style={CARD}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
             <div>
-              <div style={{ fontWeight: 700, fontSize: '0.92rem' }}>Deal Pipeline</div>
-              <div style={{ fontSize: '0.72rem', color: 'var(--color-text-secondary)', marginTop: '0.1rem' }}>84 active across 6 stages · $72.6M total value</div>
+              <div style={{ fontWeight: 700, fontSize: '0.875rem', color: '#ffffff', letterSpacing: '-0.01em' }}>
+                Token Portfolio
+              </div>
+              <div style={{ fontSize: '0.7rem', color: 'var(--color-text-secondary)', marginTop: '0.15rem' }}>
+                Active &amp; funding RWA token issuances
+              </div>
             </div>
-            <Link href="/broker-os/deals" style={{ fontSize: '0.75rem', color: 'var(--color-accent)', textDecoration: 'none', fontWeight: 600 }}>
-              View all →
-            </Link>
-          </div>
-          <div style={{ padding: '0.75rem 1.25rem' }}>
-            {PIPELINE_STAGES.map((s) => {
-              const pct = Math.round((s.count / 84) * 100)
-              return (
-                <div key={s.stage} style={{ marginBottom: '0.75rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.3rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <span style={{ width: 8, height: 8, borderRadius: '50%', background: s.color, display: 'inline-block', flexShrink: 0 }} />
-                      <span style={{ fontSize: '0.82rem', fontWeight: 600 }}>{s.stage}</span>
-                    </div>
-                    <div style={{ display: 'flex', gap: '1rem', fontSize: '0.78rem', color: 'var(--color-text-secondary)' }}>
-                      <span style={{ color: s.color, fontWeight: 700 }}>{s.count}</span>
-                      <span>{s.value}</span>
-                    </div>
-                  </div>
-                  <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: 3, height: 5, overflow: 'hidden' }}>
-                    <div style={{ width: `${pct}%`, height: '100%', background: s.color, borderRadius: 3, transition: 'width 0.3s' }} />
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Renewal Alerts */}
-        <div style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 8, overflow: 'hidden' }}>
-          <div style={{ padding: '1rem 1.25rem', borderBottom: '1px solid var(--color-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: '0.92rem' }}>Renewal Alerts</div>
-              <div style={{ fontSize: '0.72rem', color: 'var(--color-text-secondary)', marginTop: '0.1rem' }}>23 contracts expiring within 90 days</div>
+            <div style={{ fontSize: '0.65rem', ...MONO, color: 'var(--color-accent-bright)', fontWeight: 700 }}>
+              {TOKEN_PORTFOLIO.length} TOKENS · $84.6M AUM
             </div>
-            <Link href="/broker-os/renewals" style={{ fontSize: '0.75rem', color: 'var(--color-accent)', textDecoration: 'none', fontWeight: 600 }}>
-              Manage →
-            </Link>
-          </div>
-          <div>
-            {RENEWAL_ALERTS.map((r) => {
-              const badge = urgencyBadge(r.urgency)
-              return (
-                <div
-                  key={r.customer}
-                  style={{
-                    padding: '0.875rem 1.25rem',
-                    borderBottom: '1px solid var(--color-border)',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    gap: '1rem',
-                  }}
-                >
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontWeight: 600, fontSize: '0.85rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {r.customer}
-                    </div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)', marginTop: '0.1rem' }}>{r.contract}</div>
-                  </div>
-                  <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                    <div
-                      style={{
-                        display: 'inline-block',
-                        background: badge.bg,
-                        color: badge.color,
-                        borderRadius: 4,
-                        padding: '0.15rem 0.5rem',
-                        fontSize: '0.7rem',
-                        fontWeight: 700,
-                        marginBottom: '0.2rem',
-                      }}
-                    >
-                      {r.daysLeft}d left
-                    </div>
-                    <div style={{ fontSize: '0.7rem', color: 'var(--color-text-secondary)' }}>{r.annualValue}/yr</div>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom grid: Recent Deals + Commissions + Agent Activity */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '1.25rem', marginBottom: '1.25rem' }}>
-
-        {/* Recent Deals */}
-        <div style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 8, overflow: 'hidden' }}>
-          <div style={{ padding: '1rem 1.25rem', borderBottom: '1px solid var(--color-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ fontWeight: 700, fontSize: '0.92rem' }}>Recent Deals</div>
-            <Link href="/broker-os/deals" style={{ fontSize: '0.75rem', color: 'var(--color-accent)', textDecoration: 'none', fontWeight: 600 }}>
-              All deals →
-            </Link>
           </div>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
-              <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
-                {['Deal', 'Customer', 'Type', 'Value', 'Stage'].map((h) => (
+              <tr>
+                {['Ticker', 'Asset Name', 'Type', 'Chain', 'AUM', 'Yield', 'Investors', 'Status'].map((h) => (
                   <th
                     key={h}
                     style={{
-                      padding: '0.5rem 1rem',
                       textAlign: 'left',
-                      fontSize: '0.68rem',
+                      padding: '0 0.625rem 0.625rem',
+                      fontSize: '0.6rem',
                       fontWeight: 700,
                       textTransform: 'uppercase',
-                      letterSpacing: '0.06em',
+                      letterSpacing: '0.08em',
                       color: 'var(--color-text-secondary)',
+                      borderBottom: '1px solid var(--color-border)',
                     }}
                   >
                     {h}
@@ -359,45 +205,44 @@ export default function BrokerOSDashboard() {
               </tr>
             </thead>
             <tbody>
-              {RECENT_DEALS.map((d) => (
-                <tr key={d.id} style={{ borderBottom: '1px solid var(--color-border)' }}>
-                  <td style={{ padding: '0.75rem 1rem' }}>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--color-accent)', fontWeight: 600 }}>{d.id}</div>
-                    {d.rwa && (
-                      <div
-                        style={{
-                          display: 'inline-block',
-                          fontSize: '0.58rem',
-                          fontWeight: 700,
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.06em',
-                          background: 'rgba(212,168,67,0.12)',
-                          color: 'var(--color-gold)',
-                          borderRadius: 3,
-                          padding: '0.1rem 0.3rem',
-                          marginTop: '0.2rem',
-                        }}
-                      >
-                        RWA
-                      </div>
-                    )}
+              {TOKEN_PORTFOLIO.map((t, i) => (
+                <tr key={t.ticker}>
+                  <td style={{ padding: '0.625rem', borderBottom: i < TOKEN_PORTFOLIO.length - 1 ? '1px solid var(--color-border-subtle, #0e0e18)' : 'none', ...MONO, fontSize: '0.75rem', color: 'var(--color-accent-bright)', fontWeight: 700 }}>
+                    {t.ticker}
                   </td>
-                  <td style={{ padding: '0.75rem 1rem', fontSize: '0.82rem', fontWeight: 600 }}>{d.customer}</td>
-                  <td style={{ padding: '0.75rem 1rem', fontSize: '0.78rem', color: 'var(--color-text-secondary)' }}>{d.type}<br /><span style={{ fontSize: '0.7rem' }}>{d.term}</span></td>
-                  <td style={{ padding: '0.75rem 1rem', fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-text-primary)' }}>{d.value}</td>
-                  <td style={{ padding: '0.75rem 1rem' }}>
+                  <td style={{ padding: '0.625rem', borderBottom: i < TOKEN_PORTFOLIO.length - 1 ? '1px solid var(--color-border-subtle, #0e0e18)' : 'none', fontSize: '0.8rem', color: 'var(--color-text-primary)' }}>
+                    {t.name}
+                  </td>
+                  <td style={{ padding: '0.625rem', borderBottom: i < TOKEN_PORTFOLIO.length - 1 ? '1px solid var(--color-border-subtle, #0e0e18)' : 'none', fontSize: '0.72rem', color: 'var(--color-text-secondary)' }}>
+                    {t.type}
+                  </td>
+                  <td style={{ padding: '0.625rem', borderBottom: i < TOKEN_PORTFOLIO.length - 1 ? '1px solid var(--color-border-subtle, #0e0e18)' : 'none', ...MONO, fontSize: '0.68rem', fontWeight: 700, color: 'var(--color-chain)' }}>
+                    {t.chain}
+                  </td>
+                  <td style={{ padding: '0.625rem', borderBottom: i < TOKEN_PORTFOLIO.length - 1 ? '1px solid var(--color-border-subtle, #0e0e18)' : 'none', ...MONO, fontSize: '0.78rem', color: 'var(--color-text-primary)', fontWeight: 600 }}>
+                    {t.aum}
+                  </td>
+                  <td style={{ padding: '0.625rem', borderBottom: i < TOKEN_PORTFOLIO.length - 1 ? '1px solid var(--color-border-subtle, #0e0e18)' : 'none', ...MONO, fontSize: '0.78rem', color: 'var(--color-gold)', fontWeight: 700 }}>
+                    {t.yield_}
+                  </td>
+                  <td style={{ padding: '0.625rem', borderBottom: i < TOKEN_PORTFOLIO.length - 1 ? '1px solid var(--color-border-subtle, #0e0e18)' : 'none', ...MONO, fontSize: '0.75rem', color: 'var(--color-text-secondary)' }}>
+                    {t.investors.toLocaleString()}
+                  </td>
+                  <td style={{ padding: '0.625rem', borderBottom: i < TOKEN_PORTFOLIO.length - 1 ? '1px solid var(--color-border-subtle, #0e0e18)' : 'none' }}>
                     <span
                       style={{
-                        display: 'inline-block',
-                        background: `${d.stageColor}18`,
-                        color: d.stageColor,
-                        borderRadius: 4,
-                        padding: '0.2rem 0.6rem',
-                        fontSize: '0.72rem',
+                        fontSize: '0.6rem',
                         fontWeight: 700,
+                        letterSpacing: '0.08em',
+                        ...MONO,
+                        padding: '0.15rem 0.45rem',
+                        borderRadius: 3,
+                        background: t.status === 'ACTIVE' ? 'rgba(16,185,129,0.1)' : 'rgba(245,158,11,0.1)',
+                        border: `1px solid ${t.status === 'ACTIVE' ? 'rgba(16,185,129,0.25)' : 'rgba(245,158,11,0.25)'}`,
+                        color: t.status === 'ACTIVE' ? 'var(--color-chain)' : 'var(--color-warning)',
                       }}
                     >
-                      {d.stage}
+                      {t.status}
                     </span>
                   </td>
                 </tr>
@@ -406,154 +251,247 @@ export default function BrokerOSDashboard() {
           </table>
         </div>
 
-        {/* Commissions */}
-        <div style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 8, overflow: 'hidden' }}>
-          <div style={{ padding: '1rem 1.25rem', borderBottom: '1px solid var(--color-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: '0.92rem' }}>Commissions</div>
-              <div style={{ fontSize: '0.72rem', color: 'var(--color-text-secondary)', marginTop: '0.1rem' }}>YTD: $347,200 · Pending: $184,320</div>
+        {/* Settlement queue */}
+        <div style={CARD}>
+          <div style={{ marginBottom: '1.25rem' }}>
+            <div style={{ fontWeight: 700, fontSize: '0.875rem', color: '#ffffff', letterSpacing: '-0.01em', marginBottom: '0.15rem' }}>
+              Settlement Queue
             </div>
-            <Link href="/broker-os/commissions" style={{ fontSize: '0.75rem', color: 'var(--color-accent)', textDecoration: 'none', fontWeight: 600 }}>
-              Full report →
-            </Link>
+            <div style={{ fontSize: '0.7rem', color: 'var(--color-text-secondary)' }}>Pending stablecoin settlements</div>
           </div>
-          <div>
-            {COMMISSION_RECENT.map((c) => (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {SETTLEMENT_QUEUE.map((s) => (
               <div
-                key={c.deal}
+                key={s.id}
                 style={{
-                  padding: '0.75rem 1.25rem',
-                  borderBottom: '1px solid var(--color-border)',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
+                  background: '#050508',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: 5,
+                  padding: '0.875rem 1rem',
                 }}
               >
-                <div>
-                  <div style={{ fontWeight: 600, fontSize: '0.82rem' }}>{c.customer}</div>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--color-text-secondary)' }}>
-                    {c.type} · {c.date}
-                  </div>
-                </div>
-                <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontWeight: 700, fontSize: '0.9rem', color: c.status === 'paid' ? 'var(--color-success)' : 'var(--color-gold)' }}>
-                    {c.amount}
-                  </div>
-                  <div
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
+                  <span style={{ ...MONO, fontSize: '0.68rem', fontWeight: 700, color: 'var(--color-accent-bright)' }}>
+                    {s.id}
+                  </span>
+                  <span
                     style={{
-                      display: 'inline-block',
-                      fontSize: '0.65rem',
+                      ...MONO,
+                      fontSize: '0.6rem',
                       fontWeight: 700,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.05em',
-                      color: c.status === 'paid' ? 'var(--color-success)' : 'var(--color-warning)',
-                      marginTop: '0.15rem',
+                      color: s.eta.includes('Pending') ? 'var(--color-warning)' : 'var(--color-chain)',
                     }}
                   >
-                    {c.status}
+                    {s.eta}
+                  </span>
+                </div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--color-text-primary)', fontWeight: 600, marginBottom: '0.3rem' }}>
+                  {s.investor}
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ ...MONO, fontSize: '0.72rem', color: 'var(--color-text-secondary)' }}>
+                    {s.offering} · {s.chain}
+                  </span>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ ...MONO, fontSize: '0.85rem', fontWeight: 800, color: 'var(--color-stable)', letterSpacing: '-0.02em' }}>
+                      {s.amount}
+                    </div>
+                    <div style={{ ...MONO, fontSize: '0.6rem', color: 'var(--color-text-secondary)', fontWeight: 700 }}>
+                      {s.stable}
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
+            <div
+              style={{
+                textAlign: 'center',
+                padding: '0.5rem',
+                fontSize: '0.72rem',
+                color: 'var(--color-accent-bright)',
+                cursor: 'pointer',
+                ...MONO,
+              }}
+            >
+              VIEW ALL SETTLEMENTS &rarr;
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Agent Activity */}
-      <div style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 8, overflow: 'hidden', marginBottom: '1.25rem' }}>
-        <div style={{ padding: '1rem 1.25rem', borderBottom: '1px solid var(--color-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      {/* Chain activity */}
+      <div style={CARD}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
           <div>
-            <div style={{ fontWeight: 700, fontSize: '0.92rem' }}>Agent Console — Live Activity</div>
-            <div style={{ fontSize: '0.72rem', color: 'var(--color-text-secondary)', marginTop: '0.1rem' }}>5 active agents · Real-time deal intelligence</div>
+            <div style={{ fontWeight: 700, fontSize: '0.875rem', color: '#ffffff', letterSpacing: '-0.01em' }}>
+              Multi-Chain Activity
+            </div>
+            <div style={{ fontSize: '0.7rem', color: 'var(--color-text-secondary)', marginTop: '0.15rem' }}>
+              Live settlement network status
+            </div>
           </div>
-          <Link href="/broker-os/agent-console" style={{ fontSize: '0.75rem', color: 'var(--color-accent)', textDecoration: 'none', fontWeight: 600 }}>
-            Console →
-          </Link>
+          <div style={{ ...MONO, fontSize: '0.65rem', fontWeight: 700, color: 'var(--color-text-secondary)' }}>
+            LAST 24H
+          </div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 0 }}>
-          {AGENT_ACTIVITY.map((a) => (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.75rem' }}>
+          {CHAIN_ACTIVITY.map((c) => (
             <div
-              key={a.agent}
+              key={c.chain}
               style={{
-                padding: '0.875rem 1.25rem',
-                borderRight: '1px solid var(--color-border)',
-                borderBottom: '1px solid var(--color-border)',
+                background: '#050508',
+                border: '1px solid var(--color-border)',
+                borderRadius: 5,
+                padding: '1rem 1.125rem',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.3rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', marginBottom: '0.625rem' }}>
                 <span
                   style={{
-                    width: 6,
-                    height: 6,
+                    width: 5,
+                    height: 5,
                     borderRadius: '50%',
-                    background: a.status === 'active' ? 'var(--color-success)' : 'var(--color-warning)',
-                    flexShrink: 0,
+                    background: 'var(--color-chain)',
                     display: 'inline-block',
+                    boxShadow: '0 0 5px rgba(16,185,129,0.5)',
+                    flexShrink: 0,
                   }}
                 />
-                <span style={{ fontWeight: 700, fontSize: '0.82rem' }}>{a.agent}</span>
-                <span style={{ marginLeft: 'auto', fontSize: '0.68rem', color: 'var(--color-text-secondary)' }}>{a.time}</span>
+                <span style={{ fontSize: '0.6rem', fontWeight: 700, color: 'var(--color-chain)', ...MONO, letterSpacing: '0.04em' }}>
+                  {c.status}
+                </span>
               </div>
-              <div style={{ fontSize: '0.78rem', color: 'var(--color-text-secondary)', lineHeight: 1.5 }}>{a.action}</div>
+              <div style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: '0.625rem', lineHeight: 1.3 }}>
+                {c.chain}
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div>
+                  <div style={{ ...MONO, fontSize: '1rem', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.03em', lineHeight: 1 }}>
+                    {c.txCount.toLocaleString()}
+                  </div>
+                  <div style={{ fontSize: '0.6rem', color: 'var(--color-text-secondary)', marginTop: '0.2rem' }}>txns</div>
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ ...MONO, fontSize: '0.85rem', fontWeight: 700, color: 'var(--color-stable)', letterSpacing: '-0.02em', lineHeight: 1 }}>
+                    {c.vol}
+                  </div>
+                  <div style={{ fontSize: '0.6rem', color: 'var(--color-text-secondary)', marginTop: '0.2rem' }}>volume</div>
+                </div>
+              </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* RWA Market Pulse */}
-      <div
-        style={{
-          background: 'rgba(91,110,244,0.04)',
-          border: '1px solid rgba(91,110,244,0.2)',
-          borderRadius: 8,
-          padding: '1.25rem',
-          display: 'flex',
-          gap: '2rem',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <div>
-          <div style={{ fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--color-accent)', marginBottom: '0.3rem' }}>
-            RWA Market Pulse
+      {/* Bottom row: stablecoin breakdown + quick actions */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginTop: '1.25rem' }}>
+
+        {/* Stablecoin breakdown */}
+        <div style={CARD}>
+          <div style={{ fontWeight: 700, fontSize: '0.875rem', color: '#ffffff', letterSpacing: '-0.01em', marginBottom: '0.15rem' }}>
+            Stablecoin Treasury
           </div>
-          <div style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.2rem' }}>
-            Global tokenized RWA market: <span style={{ color: 'var(--color-gold)' }}>$21.4B</span> — Energy sector growing +34% YoY
+          <div style={{ fontSize: '0.7rem', color: 'var(--color-text-secondary)', marginBottom: '1.25rem' }}>
+            Settlement balances across rails
           </div>
-          <div style={{ fontSize: '0.78rem', color: 'var(--color-text-secondary)' }}>
-            Natural gas spot +4.2% · ISO-NE power +1.8% · Carbon credit index -0.9% · Solar REC premium +2.1%
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {[
+              { label: 'USDC', value: '$4,280,000', pct: 55, bar: 'var(--color-stable)' },
+              { label: 'USDF', value: '$2,100,000', pct: 27, bar: 'var(--color-accent-bright)' },
+              { label: 'USDT', value: '$1,450,000', pct: 18, bar: 'var(--color-warning)' },
+              { label: 'FDUSD', value: '$310,000', pct: 4, bar: 'var(--color-chain)' },
+            ].map((s) => (
+              <div key={s.label}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.35rem' }}>
+                  <span style={{ ...MONO, fontSize: '0.72rem', fontWeight: 700, color: 'var(--color-text-secondary)' }}>{s.label}</span>
+                  <span style={{ ...MONO, fontSize: '0.78rem', fontWeight: 700, color: 'var(--color-text-primary)' }}>{s.value}</span>
+                </div>
+                <div style={{ height: 3, background: 'var(--color-border)', borderRadius: 2, overflow: 'hidden' }}>
+                  <div style={{ height: '100%', width: `${s.pct}%`, background: s.bar, borderRadius: 2 }} />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
+
+        {/* Quick actions */}
+        <div style={CARD}>
+          <div style={{ fontWeight: 700, fontSize: '0.875rem', color: '#ffffff', letterSpacing: '-0.01em', marginBottom: '0.15rem' }}>
+            Quick Actions
+          </div>
+          <div style={{ fontSize: '0.7rem', color: 'var(--color-text-secondary)', marginBottom: '1.25rem' }}>
+            Common institutional workflows
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.625rem' }}>
+            {[
+              { label: 'New Reg D Offering', icon: '◈', color: 'var(--color-accent-bright)', href: '/broker-os/offerings' },
+              { label: 'Register Investor', icon: '◎', color: 'var(--color-chain)', href: '/broker-os/investor-portal' },
+              { label: 'Issue RWA Token', icon: '▦', color: 'var(--color-gold)', href: '/broker-os/rwa-hub' },
+              { label: 'Stablecoin Transfer', icon: '◆', color: 'var(--color-stable)', href: '/broker-os/stablecoin' },
+              { label: 'Run Compliance Check', icon: '⊕', color: 'var(--color-gold)', href: '/broker-os/compliance' },
+              { label: 'View Settlement Queue', icon: '↗', color: 'var(--color-text-secondary)', href: '/broker-os/stablecoin' },
+            ].map((a) => (
+              <a
+                key={a.label}
+                href={a.href}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '0.75rem 0.875rem',
+                  background: '#050508',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: 5,
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                <span style={{ fontSize: '0.8rem', color: a.color, flexShrink: 0 }}>{a.icon}</span>
+                <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--color-text-primary)', letterSpacing: '-0.01em', lineHeight: 1.3 }}>
+                  {a.label}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Regulatory footer bar */}
+      <div
+        style={{
+          marginTop: '2rem',
+          padding: '0.875rem 1.25rem',
+          background: '#030306',
+          border: '1px solid var(--color-border)',
+          borderRadius: 5,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '0.5rem',
+        }}
+      >
+        <div style={{ fontSize: '0.65rem', color: 'var(--color-text-secondary)', lineHeight: 1.5 }}>
+          Securities offered through FTH Capital Markets, LLC · FINRA Member · SIPC Member · SEC Registered Broker-Dealer ·
+          CRD #XXXXXXX · Alternative Trading System (ATS) Licensed · Reg D Rule 506(b) &amp; 506(c) · Reg S Offerings
+        </div>
         <div style={{ display: 'flex', gap: '0.75rem', flexShrink: 0 }}>
-          <Link
-            href="/broker-os/deals"
-            style={{
-              background: 'var(--color-accent)',
-              color: '#fff',
-              padding: '0.6rem 1.25rem',
-              borderRadius: 6,
-              fontWeight: 700,
-              fontSize: '0.82rem',
-              textDecoration: 'none',
-            }}
-          >
-            + New Deal
-          </Link>
-          <Link
-            href="/broker-os/agent-console"
-            style={{
-              border: '1px solid var(--color-border)',
-              color: 'var(--color-text-secondary)',
-              padding: '0.6rem 1.25rem',
-              borderRadius: 6,
-              fontWeight: 600,
-              fontSize: '0.82rem',
-              textDecoration: 'none',
-            }}
-          >
-            Market Intel
-          </Link>
+          {['FINRA', 'SEC', 'SIPC', 'ATS'].map((b) => (
+            <span
+              key={b}
+              style={{
+                ...MONO,
+                fontSize: '0.6rem',
+                fontWeight: 700,
+                color: 'var(--color-text-secondary)',
+                border: '1px solid var(--color-border)',
+                borderRadius: 3,
+                padding: '0.15rem 0.4rem',
+              }}
+            >
+              {b}
+            </span>
+          ))}
         </div>
       </div>
     </div>
