@@ -96,7 +96,7 @@ export default function ContactPage() {
       <div style={{ marginBottom: '3rem' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#2563eb', marginBottom: '0.75rem' }}>Contact</div>
         <h1 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '0.75rem', color: '#fff' }}>Partner with UnyKorn Now</h1>
-        <p style={{ fontSize: '1rem', color: '#4a4a60', lineHeight: 1.7, maxWidth: 640 }}>We are actively onboarding broker-dealers to launch compliant issuance and move assets fast. If your team is ready for near-term execution, this intake form goes directly to the partnership desk.</p>
+        <p style={{ fontSize: '1rem', color: '#4a4a60', lineHeight: 1.7, maxWidth: 640 }}>This intake goes directly to the UnyKorn broker-dealer partnership desk. Share your issuance model, compliance requirements, and preferred workflow so we can align the platform to your process.</p>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '2rem', alignItems: 'start' }}>
         <div style={{ background: '#0c0c10', border: '1px solid #141420', borderRadius: 6, padding: '2rem' }}>
@@ -159,6 +159,10 @@ export default function ContactPage() {
             </div>
           </div>
           <div style={{ background: '#030306', border: '1px solid #0e0e18', borderRadius: 6, padding: '1rem 1.125rem' }}>
+            <div style={{ fontSize: '0.62rem', color: '#30303e', marginBottom: '0.6rem', lineHeight: 1.5 }}>
+              UnyKorn HQ<br />
+              5655 Peachtree Parkway, Norcross, GA 30099
+            </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
               {['FINRA Member', 'SEC Registered BD', 'ATS Licensed', 'SIPC Member', 'FinCEN SAR Compliant', 'Reg BI Compliant'].map((b) => (
                 <span key={b} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.58rem', fontWeight: 700, color: '#4a4a60', background: '#0c0c10', border: '1px solid #141420', borderRadius: 2, padding: '0.15rem 0.4rem' }}>{b}</span>

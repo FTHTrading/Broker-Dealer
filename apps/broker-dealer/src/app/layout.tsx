@@ -95,6 +95,7 @@ export default function BrokerDealerLayout({ children }: { children: React.React
             <p style={{ fontWeight: 600, marginBottom: '0.5rem' }}>UnyKorn Broker-Dealer System</p>
             <p>Broker-Dealer Partner Infrastructure for Issuance and Settlement</p>
             <p style={{ marginTop: '0.25rem', fontSize: '0.72rem', opacity: 0.5 }}>FINRA Member | SEC Registered | SIPC Covered</p>
+            <p style={{ marginTop: '0.35rem', fontSize: '0.7rem', opacity: 0.65 }}>5655 Peachtree Parkway, Norcross, GA 30099</p>
           </div>
           <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
             <Link href="/downloads">Downloads</Link>

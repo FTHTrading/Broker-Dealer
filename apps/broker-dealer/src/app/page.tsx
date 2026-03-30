@@ -116,15 +116,15 @@ export default function HomePage() {
     <main style={{ maxWidth: 1200, margin: '0 auto', padding: '2rem' }}>
 
       <section style={{ padding: '5rem 0 3rem', textAlign: 'center' }}>
-        <div style={{ display: 'inline-block', background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.3)', borderRadius: 4, padding: '0.35rem 0.9rem', fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-gold)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1.75rem' }}>UnyKorn Broker-Dealer Partner Window — Active Now</div>
+        <div style={{ display: 'inline-block', background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.3)', borderRadius: 4, padding: '0.35rem 0.9rem', fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-gold)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1.75rem' }}>UnyKorn Broker-Dealer Platform</div>
         <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.25rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '1.5rem' }}>
-          We need broker-dealer partners<br />
-          <span style={{ color: 'var(--color-accent)' }}>ready to launch issuance and move assets now</span>
+          Built for broker-dealers that need to<br />
+          <span style={{ color: 'var(--color-accent)' }}>issue, settle, and scale RWA offerings efficiently</span>
         </h1>
         <p style={{ fontSize: '1.1rem', color: 'var(--color-text-secondary)', lineHeight: 1.7, maxWidth: 800, margin: '0 auto 2.5rem' }}>
-          UnyKorn built the rails. Your clients have assets. We partner with broker-dealers to structure,
-          issue, and settle offerings fast with compliance-first controls. USDC, USDT, multi-chain settlement,
-          tokenized securities workflows, and global jurisdiction playbooks are operational today.
+          We provide the platform, rails, and technical execution layer. Broker-dealers bring issuance governance,
+          investor channels, and compliance preferences. Together, offerings can be launched with USDC/USDT rails,
+          tokenized securities workflows, and multi-jurisdiction controls already in production.
         </p>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link href="/contact" style={{ background: 'var(--color-gold)', color: '#0a0a0f', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 700, textDecoration: 'none' }}>BOOK PARTNER CALL</Link>
@@ -143,11 +143,11 @@ export default function HomePage() {
       </section>
 
       <section style={{ marginBottom: '4rem', background: '#0c0c10', border: '1px solid #141420', borderRadius: 8, padding: '2rem 2.25rem' }}>
-        <div style={{ fontSize: '0.72rem', color: '#ef4444', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'var(--font-mono)', marginBottom: '0.6rem' }}>Urgent Partner Intake</div>
-        <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', marginBottom: '0.5rem' }}>Priority broker-dealer slots are being filled now</h2>
+        <div style={{ fontSize: '0.72rem', color: '#ef4444', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'var(--font-mono)', marginBottom: '0.6rem' }}>Partner Intake</div>
+        <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', marginBottom: '0.5rem' }}>Onboarding broker-dealers for near-term issuance programs</h2>
         <p style={{ fontSize: '0.9rem', color: '#4a4a60', lineHeight: 1.65, marginBottom: '1rem', maxWidth: 820 }}>
-          We are actively onboarding broker-dealers that want to lead tokenized issuance before the next cycle.
-          If your team can sponsor offerings, support compliance, and close funding projects, this is your move.
+          If your team can sponsor offerings and define compliance controls, UnyKorn can align workflows to your standards,
+          onboard issuer pipelines, and accelerate deal execution without replacing your governance model.
         </p>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '0.65rem', marginBottom: '1.2rem' }}>
           {[
