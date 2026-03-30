@@ -1,7 +1,7 @@
 [build]
   base      = "apps/broker-dealer"
   command   = "pnpm build"
-  publish   = ".next"
+  publish   = "apps/broker-dealer/.next"
 
 [build.environment]
   NODE_VERSION = "20"
