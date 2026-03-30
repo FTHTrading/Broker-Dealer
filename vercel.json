@@ -1,0 +1,7 @@
+{
+  "buildCommand": "cd apps/broker-dealer && pnpm build",
+  "outputDirectory": "apps/broker-dealer/.next",
+  "installCommand": "pnpm install",
+  "framework": "nextjs",
+  "rootDirectory": "apps/broker-dealer"
+}
