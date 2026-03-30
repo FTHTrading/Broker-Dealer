@@ -116,21 +116,20 @@ export default function HomePage() {
     <main style={{ maxWidth: 1200, margin: '0 auto', padding: '2rem' }}>
 
       <section style={{ padding: '5rem 0 3rem', textAlign: 'center' }}>
-        <div style={{ display: 'inline-block', background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.3)', borderRadius: 4, padding: '0.35rem 0.9rem', fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-gold)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1.75rem' }}>FTH Capital Markets — Institutional RWA &amp; Stablecoin Infrastructure</div>
+        <div style={{ display: 'inline-block', background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.3)', borderRadius: 4, padding: '0.35rem 0.9rem', fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-gold)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1.75rem' }}>UnyKorn Broker-Dealer Partner Window — Active Now</div>
         <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.25rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '1.5rem' }}>
-          Institutional broker-dealer infrastructure<br />
-          <span style={{ color: 'var(--color-accent)' }}>for RWA, private placements &amp; stablecoin settlement</span>
+          We need broker-dealer partners<br />
+          <span style={{ color: 'var(--color-accent)' }}>ready to launch issuance and move assets now</span>
         </h1>
         <p style={{ fontSize: '1.1rem', color: 'var(--color-text-secondary)', lineHeight: 1.7, maxWidth: 800, margin: '0 auto 2.5rem' }}>
-          Built on production infrastructure — not a prototype. Fireblocks + BitGo + Anchorage custody.
-          Rust-powered RWA and yield-bearing bond engine. USDC, USDT, DAI, RLUSD, and proprietary stablecoin.
-          Chainlink oracles and Proof of Reserve. XRPL digital securities. 100+ modules. 165 test assertions.
-          SEC, FINRA, MiCA, FCA, MAS ready across 8+ jurisdictions.
+          UnyKorn built the rails. Your clients have assets. We partner with broker-dealers to structure,
+          issue, and settle offerings fast with compliance-first controls. USDC, USDT, multi-chain settlement,
+          tokenized securities workflows, and global jurisdiction playbooks are operational today.
         </p>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link href="/contact" style={{ background: 'var(--color-gold)', color: '#0a0a0f', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 700, textDecoration: 'none' }}>Request Access</Link>
-          <Link href="/downloads" style={{ background: 'var(--color-accent)', color: '#fff', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 600, textDecoration: 'none' }}>Download Resources</Link>
-          <Link href="/platform" style={{ border: '1px solid var(--color-border)', color: 'var(--color-text-secondary)', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 600, textDecoration: 'none' }}>Audit the Platform</Link>
+          <Link href="/contact" style={{ background: 'var(--color-gold)', color: '#0a0a0f', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 700, textDecoration: 'none' }}>BOOK PARTNER CALL</Link>
+          <Link href="/downloads" style={{ background: 'var(--color-accent)', color: '#fff', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 600, textDecoration: 'none' }}>SEND PARTNER DECK</Link>
+          <a href="mailto:kevan@unykorn.org?subject=Broker-Dealer%20Partnership%20-%20Urgent" style={{ border: '1px solid var(--color-border)', color: 'var(--color-text-secondary)', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 600, textDecoration: 'none' }}>EMAIL KEVAN NOW</a>
         </div>
       </section>
 
@@ -141,6 +140,28 @@ export default function HomePage() {
             <div style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)', marginTop: '0.4rem' }}>{s.label}</div>
           </div>
         ))}
+      </section>
+
+      <section style={{ marginBottom: '4rem', background: '#0c0c10', border: '1px solid #141420', borderRadius: 8, padding: '2rem 2.25rem' }}>
+        <div style={{ fontSize: '0.72rem', color: '#ef4444', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'var(--font-mono)', marginBottom: '0.6rem' }}>Urgent Partner Intake</div>
+        <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', marginBottom: '0.5rem' }}>Priority broker-dealer slots are being filled now</h2>
+        <p style={{ fontSize: '0.9rem', color: '#4a4a60', lineHeight: 1.65, marginBottom: '1rem', maxWidth: 820 }}>
+          We are actively onboarding broker-dealers that want to lead tokenized issuance before the next cycle.
+          If your team can sponsor offerings, support compliance, and close funding projects, this is your move.
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '0.65rem', marginBottom: '1.2rem' }}>
+          {[
+            'Launch compliant Reg D / Reg S issuance workflows in weeks, not quarters',
+            'Settle with USDC / USDT rails while preserving audit and policy controls',
+            'Bring issuer assets to market with clear BD economics and repeatable process',
+          ].map((item) => (
+            <div key={item} style={{ padding: '0.75rem 0.9rem', background: '#050508', border: '1px solid #141420', borderRadius: 4, color: '#c0c0d0', fontSize: '0.8rem', lineHeight: 1.55 }}>{item}</div>
+          ))}
+        </div>
+        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <Link href="/contact" style={{ padding: '0.62rem 1.2rem', background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.35)', borderRadius: 4, color: '#ef4444', textDecoration: 'none', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em' }}>CLAIM PARTNER SLOT</Link>
+          <Link href="/downloads#platform" style={{ padding: '0.62rem 1.2rem', background: 'rgba(37,99,235,0.12)', border: '1px solid rgba(37,99,235,0.35)', borderRadius: 4, color: '#3b82f6', textDecoration: 'none', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em' }}>DOWNLOAD PARTNER PACK</Link>
+        </div>
       </section>
 
       {/* Downloads CTA */}
@@ -239,7 +260,7 @@ export default function HomePage() {
           { href: '/markets', title: 'Market Landscape', desc: 'How we compare to Securitize, Ondo, Maple, Tokena, and others.' },
           { href: '/compliance', title: 'Compliance', desc: 'KYC/AML, Reg BI, FINRA, SEC, MiCA, FCA, MAS in every flow.' },
           { href: '/downloads', title: 'Downloads', desc: '31 documents — platform overview, RWA guides, Reg D, AML procedures, subscription templates.' },
-          { href: '/contact', title: 'Request Access', desc: 'Issuers, investors, institutions, and partner broker-dealers — schedule a demonstration.' },
+          { href: '/contact', title: 'Partner Now', desc: 'Fast intake for broker-dealers ready to issue, settle, and close offerings now.' },
         ].map((card) => (
           <Link key={card.href} href={card.href} style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 8, padding: '1.5rem', textDecoration: 'none', display: 'block' }}>
             <div style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.5rem' }}>{card.title}</div>
@@ -258,9 +279,9 @@ export default function HomePage() {
           When FINRA or SEC examiners arrive, every action is in an immutable, hash-chained audit trail.
         </p>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link href="/contact" style={{ background: 'var(--color-gold)', color: '#0a0a0f', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 700, textDecoration: 'none' }}>Request a Demonstration</Link>
+          <Link href="/contact" style={{ background: 'var(--color-gold)', color: '#0a0a0f', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 700, textDecoration: 'none' }}>START BD PARTNERSHIP</Link>
           <Link href="/downloads" style={{ background: 'var(--color-accent)', color: '#fff', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 700, textDecoration: 'none' }}>Download Resources</Link>
-          <Link href="/platform" style={{ border: '1px solid var(--color-border)', color: 'var(--color-text-secondary)', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 600, textDecoration: 'none' }}>Review the Platform</Link>
+          <a href="mailto:kevan@unykorn.org?subject=Urgent%20BD%20Partnership" style={{ border: '1px solid var(--color-border)', color: 'var(--color-text-secondary)', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 600, textDecoration: 'none' }}>Email Kevan</a>
         </div>
       </section>
 

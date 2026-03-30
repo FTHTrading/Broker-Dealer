@@ -95,8 +95,8 @@ export default function ContactPage() {
     <main style={{ maxWidth: 1200, margin: '0 auto', padding: '3rem 2rem' }}>
       <div style={{ marginBottom: '3rem' }}>
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#2563eb', marginBottom: '0.75rem' }}>Contact</div>
-        <h1 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '0.75rem', color: '#fff' }}>Partner with FTH Capital Markets</h1>
-        <p style={{ fontSize: '1rem', color: '#4a4a60', lineHeight: 1.7, maxWidth: 640 }}>Whether you are structuring your first tokenized offering, building stablecoin settlement rails, or evaluating our platform for your broker-dealer — our institutional team is ready.</p>
+        <h1 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '0.75rem', color: '#fff' }}>Partner with UnyKorn Now</h1>
+        <p style={{ fontSize: '1rem', color: '#4a4a60', lineHeight: 1.7, maxWidth: 640 }}>We are actively onboarding broker-dealers to launch compliant issuance and move assets fast. If your team is ready for near-term execution, this intake form goes directly to the partnership desk.</p>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '2rem', alignItems: 'start' }}>
         <div style={{ background: '#0c0c10', border: '1px solid #141420', borderRadius: 6, padding: '2rem' }}>
@@ -132,7 +132,7 @@ export default function ContactPage() {
               {status === 'error' && <div style={{ marginBottom: '1rem', padding: '0.75rem', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.25)', borderRadius: 4, color: '#ef4444', fontSize: '0.78rem' }}>{errorMsg}</div>}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ fontSize: '0.65rem', color: '#30303e', lineHeight: 1.6 }}>Your information is confidential.<br />We do not share or sell contact data.</div>
-                <button type="submit" disabled={status === 'sending'} style={{ padding: '0.7rem 1.75rem', background: status === 'sending' ? 'rgba(37,99,235,0.4)' : '#2563eb', border: 'none', borderRadius: 4, color: '#fff', fontSize: '0.78rem', fontWeight: 700, cursor: status === 'sending' ? 'not-allowed' : 'pointer', fontFamily: 'var(--font-mono)', letterSpacing: '0.06em' }}>{status === 'sending' ? 'SENDING...' : 'SEND INQUIRY'}</button>
+                <button type="submit" disabled={status === 'sending'} style={{ padding: '0.7rem 1.75rem', background: status === 'sending' ? 'rgba(37,99,235,0.4)' : '#2563eb', border: 'none', borderRadius: 4, color: '#fff', fontSize: '0.78rem', fontWeight: 700, cursor: status === 'sending' ? 'not-allowed' : 'pointer', fontFamily: 'var(--font-mono)', letterSpacing: '0.06em' }}>{status === 'sending' ? 'SENDING...' : 'START PARTNER INTAKE'}</button>
               </div>
             </form>
           )}
@@ -155,7 +155,7 @@ export default function ContactPage() {
                   <span style={{ fontSize: '0.7rem', color: '#4a4a60' }}>PDF</span>
                 </a>
               ))}
-              <Link href="/downloads" style={{ display: 'block', textAlign: 'center', padding: '0.5rem', fontSize: '0.72rem', color: '#3b82f6', textDecoration: 'none', fontWeight: 700, marginTop: '0.25rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>VIEW ALL 22 DOWNLOADS</Link>
+              <Link href="/downloads" style={{ display: 'block', textAlign: 'center', padding: '0.5rem', fontSize: '0.72rem', color: '#3b82f6', textDecoration: 'none', fontWeight: 700, marginTop: '0.25rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>VIEW ALL 31 DOWNLOADS</Link>
             </div>
           </div>
           <div style={{ background: '#030306', border: '1px solid #0e0e18', borderRadius: 6, padding: '1rem 1.125rem' }}>
