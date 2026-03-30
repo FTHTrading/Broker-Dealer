@@ -70,3 +70,6 @@ venv/
 tmp/
 temp/
 *.tmp
+
+# Local Netlify folder
+.netlify
