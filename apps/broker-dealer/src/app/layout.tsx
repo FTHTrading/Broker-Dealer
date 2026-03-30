@@ -4,11 +4,17 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: {
-    default: 'Moody Capital Markets Operating System',
-    template: '%s — Moody Capital',
+    default: 'FTH Capital Markets — Institutional RWA & Stablecoin Infrastructure',
+    template: '%s — FTH Capital Markets',
   },
   description:
-    'A compliance-first broker-dealer platform for origination, investor gating, subscription execution, rights offerings, debt administration, custody-connected settlement, controlled digital issuance, and post-close lifecycle management.',
+    'Institutional-grade broker-dealer infrastructure for RWA tokenization, private placements, stablecoin settlement, and digital asset custody. FINRA-registered, SEC-compliant, multi-chain.',
+  keywords: ['RWA tokenization', 'broker dealer', 'FINRA', 'private placement', 'stablecoin settlement', 'digital assets', 'Reg D', 'alternative investments'],
+  openGraph: {
+    title: 'FTH Capital Markets — Institutional RWA & Stablecoin Infrastructure',
+    description: 'Institutional broker-dealer platform for tokenized real-world assets, private placements, and multi-chain stablecoin settlement.',
+    type: 'website',
+  },
 }
 
 const NAV_LINKS = [
@@ -20,6 +26,7 @@ const NAV_LINKS = [
   { href: '/compliance', label: 'Compliance' },
   { href: '/operations', label: 'Operations' },
   { href: '/insights', label: 'Insights' },
+  { href: '/downloads', label: 'Downloads' },
   { href: '/contact', label: 'Contact' },
 ] as const
 
@@ -49,7 +56,7 @@ export default function BrokerDealerLayout({ children }: { children: React.React
               letterSpacing: '-0.02em',
             }}
           >
-            <span style={{ color: 'var(--color-gold)' }}>Moody</span>{' '}Capital
+            <span style={{ color: 'var(--color-gold)' }}>FTH</span> Capital Markets
           </Link>
 
           <nav style={{ display: 'flex', gap: '1.75rem', fontSize: '0.85rem' }}>
@@ -88,13 +95,15 @@ export default function BrokerDealerLayout({ children }: { children: React.React
           }}
         >
           <div>
-            <p style={{ fontWeight: 600, marginBottom: '0.5rem' }}>Moody Capital Markets Operating System</p>
-            <p>Compliance-First Broker-Dealer Infrastructure</p>
+            <p style={{ fontWeight: 600, marginBottom: '0.5rem' }}>FTH Capital Markets</p>
+            <p>Institutional RWA & Stablecoin Infrastructure</p>
+            <p style={{ marginTop: '0.25rem', fontSize: '0.72rem', opacity: 0.5 }}>FINRA Member · SEC Registered · SIPC Covered</p>
           </div>
           <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+            <Link href="/downloads">Downloads</Link>
             <Link href="/disclosures">Disclosures</Link>
             <Link href="/compliance">Compliance</Link>
-            <Link href="/platform">Platform</Link>
+            <Link href="/contact">Contact</Link>
           </div>
         </footer>
 
@@ -111,13 +120,14 @@ export default function BrokerDealerLayout({ children }: { children: React.React
           }}
         >
           <p>
-            Securities offered through Moody Capital are subject to applicable federal and state
-            securities laws. Participation is limited to qualified and accredited investors as defined
-            under Regulation D of the Securities Act of 1933, Regulation A+, and Regulation S. All
-            offerings are made pursuant to available exemptions and are not registered with the SEC
-            or any state securities commission. Investment in private securities involves significant
-            risk including possible loss of principal. Past performance does not guarantee future
-            results. This platform is operated by a registered broker-dealer and FINRA member firm.
+            Securities offered through FTH Capital Markets are subject to applicable federal and state securities laws.
+            Participation is limited to qualified institutional buyers, accredited investors, and verified entities as
+            defined under Regulation D, Regulation S, and Regulation A+ of the Securities Act of 1933. All offerings
+            are made pursuant to available exemptions and are not registered with the SEC or any state securities
+            commission. Tokenized real-world assets are subject to additional regulatory requirements. Investment in
+            private securities and digital assets involves significant risk including possible total loss of principal.
+            Past performance does not guarantee future results. FTH Capital Markets operates as a FINRA member
+            broker-dealer and registered Alternative Trading System (ATS). Member SIPC.
           </p>
         </div>
       </body>

@@ -116,10 +116,10 @@ export default function HomePage() {
     <main style={{ maxWidth: 1200, margin: '0 auto', padding: '2rem' }}>
 
       <section style={{ padding: '5rem 0 3rem', textAlign: 'center' }}>
-        <div style={{ display: 'inline-block', background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.3)', borderRadius: 4, padding: '0.35rem 0.9rem', fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-gold)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1.75rem' }}>Moody Capital Markets Operating System</div>
+        <div style={{ display: 'inline-block', background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.3)', borderRadius: 4, padding: '0.35rem 0.9rem', fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-gold)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '1.75rem' }}>FTH Capital Markets — Institutional RWA &amp; Stablecoin Infrastructure</div>
         <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.25rem)', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '1.5rem' }}>
-          Compliance-first broker-dealer<br />
-          <span style={{ color: 'var(--color-accent)' }}>infrastructure for every capital market</span>
+          Institutional broker-dealer infrastructure<br />
+          <span style={{ color: 'var(--color-accent)' }}>for RWA, private placements &amp; stablecoin settlement</span>
         </h1>
         <p style={{ fontSize: '1.1rem', color: 'var(--color-text-secondary)', lineHeight: 1.7, maxWidth: 800, margin: '0 auto 2.5rem' }}>
           Built on production infrastructure — not a prototype. Fireblocks + BitGo + Anchorage custody.
@@ -128,9 +128,9 @@ export default function HomePage() {
           SEC, FINRA, MiCA, FCA, MAS ready across 8+ jurisdictions.
         </p>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link href="/platform" style={{ background: 'var(--color-accent)', color: '#fff', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 600, textDecoration: 'none' }}>Audit the Platform</Link>
-          <Link href="/technology" style={{ border: '1px solid var(--color-border)', color: 'var(--color-text-secondary)', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 600, textDecoration: 'none' }}>Technology Stack</Link>
-          <Link href="/markets" style={{ border: '1px solid var(--color-border)', color: 'var(--color-text-secondary)', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 600, textDecoration: 'none' }}>Market Landscape</Link>
+          <Link href="/contact" style={{ background: 'var(--color-gold)', color: '#0a0a0f', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 700, textDecoration: 'none' }}>Request Access</Link>
+          <Link href="/downloads" style={{ background: 'var(--color-accent)', color: '#fff', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 600, textDecoration: 'none' }}>Download Resources</Link>
+          <Link href="/platform" style={{ border: '1px solid var(--color-border)', color: 'var(--color-text-secondary)', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 600, textDecoration: 'none' }}>Audit the Platform</Link>
         </div>
       </section>
 
@@ -141,6 +141,33 @@ export default function HomePage() {
             <div style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)', marginTop: '0.4rem' }}>{s.label}</div>
           </div>
         ))}
+      </section>
+
+      {/* Downloads CTA */}
+      <section style={{ marginBottom: '4rem', background: '#0c0c10', border: '1px solid #141420', borderRadius: 8, padding: '2rem 2.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '2rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
+          <div>
+            <p style={{ fontSize: '0.7rem', color: '#c9a84c', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'var(--font-mono)', marginBottom: '0.4rem' }}>Broker-Dealer Resource Library</p>
+            <h2 style={{ fontSize: '1.35rem', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '0.4rem', color: '#fff' }}>31 institutional-grade documents. Available now.</h2>
+            <p style={{ fontSize: '0.85rem', color: '#4a4a60', lineHeight: 1.6 }}>Platform overviews, RWA frameworks, Reg D / Reg S guides, AML procedures, stablecoin architecture, and due diligence packages.</p>
+          </div>
+          <Link href="/downloads" style={{ flexShrink: 0, padding: '0.7rem 1.5rem', background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.35)', borderRadius: 5, color: '#c9a84c', fontSize: '0.72rem', fontWeight: 700, textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>VIEW ALL DOWNLOADS →</Link>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.625rem' }}>
+          {[
+            { label: 'Platform Overview', count: 5, href: '/downloads#platform', color: '#2563eb' },
+            { label: 'RWA & Tokenization', count: 6, href: '/downloads#rwa', color: '#c9a84c' },
+            { label: 'Regulatory & Compliance', count: 7, href: '/downloads#regulatory', color: '#8b5cf6' },
+            { label: 'Stablecoin & Settlement', count: 4, href: '/downloads#stablecoin', color: '#0ea5e9' },
+            { label: 'Investor Relations', count: 5, href: '/downloads#investor', color: '#10b981' },
+            { label: 'Due Diligence', count: 4, href: '/downloads#diligence', color: '#ef4444' },
+          ].map((cat) => (
+            <Link key={cat.label} href={cat.href} style={{ padding: '0.75rem 1rem', background: `${cat.color}08`, border: `1px solid ${cat.color}25`, borderRadius: 4, textDecoration: 'none', display: 'block' }}>
+              <div style={{ fontSize: '0.7rem', fontWeight: 700, color: cat.color, fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: '0.2rem' }}>{cat.count} docs</div>
+              <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#c0c0d0' }}>{cat.label}</div>
+            </Link>
+          ))}
+        </div>
       </section>
 
       <section style={{ marginBottom: '4rem' }}>
@@ -211,7 +238,8 @@ export default function HomePage() {
           { href: '/services', title: 'Services', desc: 'Placement, RWA, yield-bearing bonds, debt administration, custody.' },
           { href: '/markets', title: 'Market Landscape', desc: 'How we compare to Securitize, Ondo, Maple, Tokena, and others.' },
           { href: '/compliance', title: 'Compliance', desc: 'KYC/AML, Reg BI, FINRA, SEC, MiCA, FCA, MAS in every flow.' },
-          { href: '/contact', title: 'Contact', desc: 'Issuers, investors, institutions, and partners — we are ready.' },
+          { href: '/downloads', title: 'Downloads', desc: '31 documents — platform overview, RWA guides, Reg D, AML procedures, subscription templates.' },
+          { href: '/contact', title: 'Request Access', desc: 'Issuers, investors, institutions, and partner broker-dealers — schedule a demonstration.' },
         ].map((card) => (
           <Link key={card.href} href={card.href} style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 8, padding: '1.5rem', textDecoration: 'none', display: 'block' }}>
             <div style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.5rem' }}>{card.title}</div>
@@ -222,7 +250,7 @@ export default function HomePage() {
       </section>
 
       <section style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 8, padding: '2.5rem', textAlign: 'center', marginBottom: '2rem' }}>
-        <p style={{ fontSize: '0.75rem', color: 'var(--color-gold)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '1rem' }}>Production Infrastructure</p>
+        <p style={{ fontSize: '0.75rem', color: 'var(--color-gold)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '1rem' }}>Ready to Evaluate?</p>
         <p style={{ fontSize: '1.05rem', color: 'var(--color-text-secondary)', lineHeight: 1.8, maxWidth: 800, margin: '0 auto 1.5rem' }}>
           This is not a pitch deck. This is a running system. Custody connections are live.
           The Rust engine processes bond and RWA lifecycles at sub-millisecond speed.
@@ -231,6 +259,7 @@ export default function HomePage() {
         </p>
         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link href="/contact" style={{ background: 'var(--color-gold)', color: '#0a0a0f', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 700, textDecoration: 'none' }}>Request a Demonstration</Link>
+          <Link href="/downloads" style={{ background: 'var(--color-accent)', color: '#fff', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 700, textDecoration: 'none' }}>Download Resources</Link>
           <Link href="/platform" style={{ border: '1px solid var(--color-border)', color: 'var(--color-text-secondary)', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 600, textDecoration: 'none' }}>Review the Platform</Link>
         </div>
       </section>
