@@ -53,8 +53,16 @@ export default function BrokerDealerLayout({ children }: { children: React.React
               color: 'var(--color-text-primary)',
               textDecoration: 'none',
               letterSpacing: '-0.02em',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.6rem',
             }}
           >
+            <img
+              src="/unykorn-logo.png"
+              alt="UnyKorn Logo"
+              style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '1px solid #1f1f2b' }}
+            />
             <span style={{ color: 'var(--color-gold)' }}>UnyKorn</span> Broker-Dealer System
           </Link>
 
