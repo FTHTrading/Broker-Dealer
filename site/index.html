@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FTH Trading — SEC/FINRA-Compliant Broker-Dealer Platform</title>
+  <meta name="description" content="Institutional trading infrastructure — multi-asset execution, real-time risk management, automated regulatory reporting. SEC Registered. FINRA Member. SIPC Member.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
+  <style>
+    :root {
+      --bg: #09090b;
+      --surface: #18181b;
+      --surface2: #27272a;
+      --border: #3f3f46;
+      --text: #fafafa;
+      --text-dim: #a1a1aa;
+      --accent: #3b82f6;
+      --accent-light: #60a5fa;
+      --green: #22c55e;
+      --green-bg: rgba(34,197,94,.08);
+      --red: #ef4444;
+      --yellow: #eab308;
+      --orange: #f97316;
+      --purple: #8b5cf6;
+      --cyan: #06b6d4;
+      --radius: 12px;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.6;
+    }
+    a { color: var(--accent-light); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 0.9em; }
+
+    /* ── NAV ─────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(9,9,11,.88); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1280px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between; height: 56px;
+    }
+    .nav-brand { font-weight: 800; font-size: 17px; display: flex; align-items: center; gap: 8px; }
+    .nav-brand span { color: var(--accent-light); }
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a { color: var(--text-dim); font-size: 13px; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    @media (max-width: 700px) { .nav-links { display: none; } }
+
+    /* ── HERO ────────────────────────────────── */
+    .hero {
+      padding: 140px 24px 80px; text-align: center;
+      background: radial-gradient(ellipse at 50% 0%, rgba(59,130,246,.12) 0%, transparent 55%);
+    }
+    .hero-badges { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 14px; border-radius: 20px; font-size: 11px; font-weight: 700;
+      border: 1px solid; text-transform: uppercase; letter-spacing: .04em;
+    }
+    .badge-green { background: var(--green-bg); color: var(--green); border-color: rgba(34,197,94,.2); }
+    .badge-blue { background: rgba(59,130,246,.08); color: var(--accent-light); border-color: rgba(59,130,246,.2); }
+    .badge-purple { background: rgba(139,92,246,.08); color: #a78bfa; border-color: rgba(139,92,246,.2); }
+    .hero h1 { font-size: clamp(32px, 5vw, 56px); font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, var(--accent-light), var(--cyan));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p { font-size: 17px; color: var(--text-dim); max-width: 680px; margin: 0 auto 32px; }
+    .hero-stats {
+      display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;
+      margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border);
+    }
+    .hero-stat { text-align: center; }
+    .hero-stat .num { font-size: 26px; font-weight: 800; }
+    .hero-stat .label { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+
+    /* ── SECTIONS ────────────────────────────── */
+    section { max-width: 1280px; margin: 0 auto; padding: 80px 24px; }
+    .section-label {
+      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+      color: var(--accent-light); margin-bottom: 8px;
+    }
+    .section-title { font-size: 30px; font-weight: 800; margin-bottom: 12px; }
+    .section-desc { font-size: 15px; color: var(--text-dim); max-width: 620px; margin-bottom: 40px; }
+
+    /* ── CAPABILITY TABLE ────────────────────── */
+    .cap-table {
+      width: 100%; border-collapse: collapse;
+      background: var(--surface); border-radius: var(--radius); overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .cap-table th {
+      text-align: left; padding: 10px 16px; font-size: 11px;
+      text-transform: uppercase; letter-spacing: .05em;
+      color: var(--text-dim); background: var(--surface2); border-bottom: 1px solid var(--border);
+    }
+    .cap-table td { padding: 10px 16px; font-size: 13px; border-bottom: 1px solid var(--border); }
+    .cap-table tr:last-child td { border-bottom: none; }
+    .status { font-weight: 700; }
+    .s-live { color: var(--green); }
+    .s-beta { color: var(--yellow); }
+    .s-dev { color: var(--accent-light); }
+
+    /* ── CARD GRID ───────────────────────────── */
+    .card-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;
+    }
+    .card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 24px; transition: border-color .2s, transform .15s;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .card-icon { font-size: 26px; margin-bottom: 10px; }
+    .card-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .card-sub { font-size: 12px; font-weight: 600; margin-bottom: 8px; }
+    .card-desc { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+    .card-meta {
+      margin-top: 12px; font-size: 11px; color: var(--text-dim);
+      display: flex; gap: 10px; flex-wrap: wrap;
+    }
+    .card-meta span { background: var(--surface2); padding: 2px 8px; border-radius: 4px; }
+
+    /* ── SERVICE TABLE ───────────────────────── */
+    .svc-table {
+      width: 100%; border-collapse: collapse;
+      background: var(--surface); border-radius: var(--radius); overflow: hidden;
+      border: 1px solid var(--border); margin-bottom: 16px;
+    }
+    .svc-table th {
+      text-align: left; padding: 8px 14px; font-size: 11px;
+      text-transform: uppercase; letter-spacing: .04em;
+      color: var(--text-dim); background: var(--surface2); border-bottom: 1px solid var(--border);
+    }
+    .svc-table td { padding: 8px 14px; font-size: 13px; border-bottom: 1px solid var(--border); }
+    .svc-table tr:last-child td { border-bottom: none; }
+    .port { font-family: 'SF Mono', 'Fira Code', monospace; color: var(--cyan); font-weight: 600; }
+    .proto { font-family: 'SF Mono', 'Fira Code', monospace; color: var(--purple); font-size: 12px; }
+
+    /* ── REGULATORY BOX ──────────────────────── */
+    .reg-map {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 32px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px;
+      line-height: 1.7; overflow-x: auto; white-space: pre;
+    }
+    .reg-map .heading { color: var(--accent-light); font-weight: 700; }
+    .reg-map .rule { color: var(--text-dim); }
+    .reg-map .desc { color: var(--text); }
+
+    /* ── BENCHMARK BARS ──────────────────────── */
+    .bench-row { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+    .bench-label { font-size: 13px; min-width: 180px; color: var(--text-dim); }
+    .bench-track { flex: 1; height: 22px; background: var(--surface2); border-radius: 4px; overflow: hidden; position: relative; }
+    .bench-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 700; color: #fff; }
+    .bench-target { font-size: 12px; min-width: 100px; text-align: right; color: var(--text-dim); font-family: 'SF Mono', monospace; }
+
+    /* ── RISK GRID ───────────────────────────── */
+    .risk-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 12px;
+    }
+    .risk-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      padding: 16px; display: flex; align-items: flex-start; gap: 12px;
+    }
+    .risk-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+    .risk-name { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+    .risk-detail { font-size: 12px; color: var(--text-dim); }
+    .risk-action { font-size: 11px; font-weight: 600; margin-top: 4px; }
+    .risk-action.halt { color: var(--red); }
+    .risk-action.alert { color: var(--yellow); }
+    .risk-action.warn { color: var(--orange); }
+
+    /* ── STACK GRID ──────────────────────────── */
+    .stack-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px;
+    }
+    .stack-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 18px;
+    }
+    .stack-layer { font-size: 11px; color: var(--text-dim); text-transform: uppercase; font-weight: 600; letter-spacing: .04em; margin-bottom: 4px; }
+    .stack-tech { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+    .stack-purpose { font-size: 12px; color: var(--text-dim); }
+
+    /* ── PIPELINE STEPS ──────────────────────── */
+    .pipeline {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px;
+    }
+    .pipe-step {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 14px; text-align: center;
+    }
+    .pipe-step .step-dot {
+      width: 28px; height: 28px; border-radius: 50%; display: inline-flex;
+      align-items: center; justify-content: center; font-size: 12px; font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .pipe-step .step-label { font-size: 12px; font-weight: 700; }
+    .pipe-step .step-desc { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+
+    /* ── FOOTER ───────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border); padding: 32px 24px; text-align: center;
+      color: var(--text-dim); font-size: 12px;
+    }
+    .footer-inner { max-width: 1280px; margin: 0 auto; }
+    .footer-badges { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; font-size: 11px; font-weight: 600; }
+    .footer-badges span { color: var(--text-dim); }
+
+    /* ── CTA ──────────────────────────────────── */
+    .cta-section {
+      text-align: center; padding: 80px 24px;
+      background: linear-gradient(180deg, transparent, rgba(59,130,246,.06));
+    }
+    .cta-section h2 { font-size: 26px; font-weight: 800; margin-bottom: 10px; }
+    .cta-section p { color: var(--text-dim); margin-bottom: 24px; font-size: 15px; }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 14px;
+      background: var(--accent); color: #fff; border: none; cursor: pointer; transition: background .2s;
+    }
+    .cta-btn:hover { background: #2563eb; text-decoration: none; }
+
+    /* ── AML GRID ─────────────────────────────── */
+    .aml-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px;
+    }
+    .aml-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      padding: 16px; display: flex; gap: 12px; align-items: flex-start;
+    }
+    .aml-icon { font-size: 22px; flex-shrink: 0; }
+    .aml-title { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+    .aml-desc { font-size: 12px; color: var(--text-dim); }
+
+    /* ── SETTLEMENT ──────────────────────────── */
+    .settle-table {
+      width: 100%; border-collapse: collapse;
+      background: var(--surface); border-radius: var(--radius); overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .settle-table th {
+      text-align: left; padding: 8px 14px; font-size: 11px;
+      text-transform: uppercase; letter-spacing: .04em;
+      color: var(--text-dim); background: var(--surface2); border-bottom: 1px solid var(--border);
+    }
+    .settle-table td { padding: 8px 14px; font-size: 13px; border-bottom: 1px solid var(--border); }
+    .settle-table tr:last-child td { border-bottom: none; }
+
+    /* ── DISCLAIMER ──────────────────────────── */
+    .disclaimer {
+      background: rgba(59,130,246,.06); border: 1px solid rgba(59,130,246,.15); border-radius: var(--radius);
+      padding: 16px 20px; margin-top: 24px; font-size: 12px; color: var(--text-dim);
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .disclaimer-icon { font-size: 16px; flex-shrink: 0; }
+
+    /* ── SECURITY LAYERS ─────────────────────── */
+    .sec-layers { display: flex; flex-direction: column; gap: 6px; }
+    .sec-layer {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      padding: 14px 20px; display: flex; align-items: center; gap: 16px;
+    }
+    .sec-layer-num {
+      font-size: 11px; font-weight: 800; color: var(--accent-light);
+      background: rgba(59,130,246,.12); width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .sec-layer-name { font-size: 14px; font-weight: 700; min-width: 100px; }
+    .sec-layer-tech { font-size: 12px; color: var(--text-dim); flex: 1; }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ──────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">📈 <span>FTH Trading</span> &mdash; Broker-Dealer</div>
+    <div class="nav-links">
+      <a href="#capabilities">Capabilities</a>
+      <a href="#services">Services</a>
+      <a href="#compliance">Compliance</a>
+      <a href="#risk">Risk Engine</a>
+      <a href="#performance">Performance</a>
+      <a href="#security">Security</a>
+      <a href="https://portfolio.unykorn.org" target="_blank">Portfolio ↗</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── HERO ──────────────────────────────────── -->
+<div class="hero">
+  <div class="hero-badges">
+    <span class="badge badge-green">● SEC Registered</span>
+    <span class="badge badge-green">● FINRA Member</span>
+    <span class="badge badge-blue">● SIPC Member</span>
+    <span class="badge badge-purple">● SOC 2 Type II</span>
+  </div>
+  <h1>
+    <span class="gradient">Institutional Trading</span><br>
+    Infrastructure
+  </h1>
+  <p>
+    SEC/FINRA-compliant broker-dealer platform for multi-asset execution, real-time risk management,
+    and automated regulatory reporting. Event-driven microservices architecture with sub-millisecond latency paths.
+  </p>
+
+  <div class="disclaimer">
+    <div class="disclaimer-icon">🏛️</div>
+    <div>Production-grade institutional platform. TypeScript + Rust core. 16 microservices, 8 shared packages, full FIX protocol connectivity. Proprietary &amp; confidential — © 2024–2026 FTH Trading LLC.</div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num" style="color: var(--green);">16</div><div class="label">Microservices</div></div>
+    <div class="hero-stat"><div class="num" style="color: var(--accent-light);">8</div><div class="label">Shared Packages</div></div>
+    <div class="hero-stat"><div class="num" style="color: var(--cyan);">~180μs</div><div class="label">Tick-to-Trade</div></div>
+    <div class="hero-stat"><div class="num" style="color: var(--purple);">142K</div><div class="label">Orders/sec</div></div>
+    <div class="hero-stat"><div class="num" style="color: var(--yellow);">99.97%</div><div class="label">Uptime Target</div></div>
+    <div class="hero-stat"><div class="num" style="color: var(--green);">94%</div><div class="label">Test Coverage</div></div>
+  </div>
+</div>
+
+<!-- ─── CAPABILITIES ──────────────────────────── -->
+<section id="capabilities">
+  <div class="section-label">Core Platform</div>
+  <div class="section-title">Capabilities Matrix</div>
+  <div class="section-desc">Multi-asset trading, risk management, and regulatory compliance — live production.</div>
+
+  <table class="cap-table">
+    <thead><tr><th>Capability</th><th>Status</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>🟢 Multi-Asset Trading</td><td class="status s-live">LIVE</td><td>Equities, Options, Fixed Income, Digital Assets</td></tr>
+      <tr><td>🟢 Order Management</td><td class="status s-live">LIVE</td><td>FIX 4.4 / FIX 5.0 SP2, Smart Order Routing</td></tr>
+      <tr><td>🟢 Risk Engine</td><td class="status s-live">LIVE</td><td>Real-time pre-trade &amp; post-trade risk checks</td></tr>
+      <tr><td>🟢 Regulatory Reporting</td><td class="status s-live">LIVE</td><td>FOCUS, CAT, TRACE, OATS, Blue Sheets</td></tr>
+      <tr><td>🟢 Net Capital (15c3-1)</td><td class="status s-live">LIVE</td><td>Automated daily computation &amp; alerts</td></tr>
+      <tr><td>🟢 Customer Protection</td><td class="status s-live">LIVE</td><td>Reserve formula (15c3-3) computation</td></tr>
+      <tr><td>🟢 AML/KYC</td><td class="status s-live">LIVE</td><td>CIP, CDD, EDD, SAR filing, OFAC screening</td></tr>
+      <tr><td>🟡 Digital Asset Custody</td><td class="status s-beta">BETA</td><td>Fireblocks + BitGo MPC integration</td></tr>
+      <tr><td>🟡 CCIP Bridge</td><td class="status s-beta">BETA</td><td>Cross-chain settlement via Chainlink CCIP</td></tr>
+      <tr><td>🔵 AI Trade Surveillance</td><td class="status s-dev">DEV</td><td>ML-based market manipulation detection</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ─── SERVICES ──────────────────────────────── -->
+<section id="services" style="border-top: 1px solid var(--border);">
+  <div class="section-label">Microservices</div>
+  <div class="section-title">Services Matrix</div>
+  <div class="section-desc">16 services across three domains — Trading, Risk &amp; Compliance, and Data &amp; Operations.</div>
+
+  <!-- Trading Domain -->
+  <div style="margin-bottom: 8px; font-size: 13px; font-weight: 700; color: var(--cyan);">⚡ Trading Domain</div>
+  <table class="svc-table">
+    <thead><tr><th>Service</th><th>Port</th><th>Protocol</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>order-gateway</td><td class="port">8100</td><td class="proto">FIX/WS</td><td>Order entry &amp; validation</td></tr>
+      <tr><td>oms-engine</td><td class="port">8101</td><td class="proto">gRPC</td><td>Order management &amp; lifecycle</td></tr>
+      <tr><td>ems-engine</td><td class="port">8102</td><td class="proto">gRPC</td><td>Execution management</td></tr>
+      <tr><td>smart-router</td><td class="port">8103</td><td class="proto">gRPC</td><td>Smart order routing</td></tr>
+      <tr><td>market-maker</td><td class="port">8104</td><td class="proto">gRPC</td><td>Market making strategies</td></tr>
+      <tr><td>fix-bridge</td><td class="port">8105</td><td class="proto">FIX 4.4</td><td>Exchange connectivity</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Risk & Compliance Domain -->
+  <div style="margin-bottom: 8px; font-size: 13px; font-weight: 700; color: var(--red);">🔴 Risk &amp; Compliance Domain</div>
+  <table class="svc-table">
+    <thead><tr><th>Service</th><th>Port</th><th>Protocol</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>risk-engine</td><td class="port">8200</td><td class="proto">gRPC</td><td>Pre/post-trade risk</td></tr>
+      <tr><td>net-capital</td><td class="port">8201</td><td class="proto">REST</td><td>15c3-1 computation</td></tr>
+      <tr><td>customer-protection</td><td class="port">8202</td><td class="proto">REST</td><td>15c3-3 reserve formula</td></tr>
+      <tr><td>aml-engine</td><td class="port">8203</td><td class="proto">gRPC</td><td>AML/KYC/OFAC</td></tr>
+      <tr><td>surveillance</td><td class="port">8204</td><td class="proto">gRPC</td><td>Trade surveillance &amp; detection</td></tr>
+      <tr><td>reg-reporting</td><td class="port">8205</td><td class="proto">REST</td><td>FOCUS, CAT, TRACE</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Data & Operations Domain -->
+  <div style="margin-bottom: 8px; font-size: 13px; font-weight: 700; color: var(--green);">📊 Data &amp; Operations Domain</div>
+  <table class="svc-table">
+    <thead><tr><th>Service</th><th>Port</th><th>Protocol</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>market-data</td><td class="port">8300</td><td class="proto">WS/gRPC</td><td>Feed handler &amp; distribution</td></tr>
+      <tr><td>position-mgr</td><td class="port">8301</td><td class="proto">gRPC</td><td>Position management</td></tr>
+      <tr><td>pnl-engine</td><td class="port">8302</td><td class="proto">gRPC</td><td>Real-time P&amp;L</td></tr>
+      <tr><td>settlement</td><td class="port">8303</td><td class="proto">REST</td><td>T+1 settlement pipeline</td></tr>
+      <tr><td>reconciliation</td><td class="port">8304</td><td class="proto">REST</td><td>Position &amp; cash recon</td></tr>
+      <tr><td>client-mgmt</td><td class="port">8305</td><td class="proto">REST</td><td>Account management</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ─── ORDER TYPES ───────────────────────────── -->
+<section style="border-top: 1px solid var(--border);">
+  <div class="section-label">Order Management</div>
+  <div class="section-title">FIX Protocol &amp; Order Types</div>
+  <div class="section-desc">Full FIX 4.2/4.4/5.0 connectivity to NYSE, NASDAQ, CBOE, IEX, CME Globex. Session management with automatic failover.</div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">📋</div>
+      <div class="card-title">Standard Orders</div>
+      <div class="card-desc">Market, Limit, Stop, Stop-Limit across all venues.</div>
+      <div class="card-meta"><span>All Venues</span></div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🤖</div>
+      <div class="card-title">Algorithmic</div>
+      <div class="card-desc">TWAP, VWAP, Iceberg, Peg — execution algorithms for institutional flow.</div>
+      <div class="card-meta"><span>Equity Venues</span></div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔗</div>
+      <div class="card-title">Conditional</div>
+      <div class="card-desc">OCO, OTO, Bracket, Trailing Stop — linked order strategies.</div>
+      <div class="card-meta"><span>All Venues</span></div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏢</div>
+      <div class="card-title">Block Trading</div>
+      <div class="card-desc">Negotiated, Cross, Dark Pool execution for institutional blocks.</div>
+      <div class="card-meta"><span>Institutional</span></div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📊</div>
+      <div class="card-title">Options</div>
+      <div class="card-desc">Spread, Straddle, Complex Multi-Leg strategies across options exchanges.</div>
+      <div class="card-meta"><span>CBOE</span><span>ISE</span><span>Phlx</span></div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔌</div>
+      <div class="card-title">Exchange Connectivity</div>
+      <div class="card-desc">NYSE, NYSE Arca, NASDAQ, CBOE/BZX/EDGX, IEX, CME Globex — FIX + binary protocols.</div>
+      <div class="card-meta"><span>FIX 4.2/4.4</span><span>OUCH</span><span>Binary</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── COMPLIANCE ────────────────────────────── -->
+<section id="compliance" style="border-top: 1px solid var(--border);">
+  <div class="section-label">Regulatory Framework</div>
+  <div class="section-title">Full SEC/FINRA Compliance Map</div>
+  <div class="section-desc">Automated computation and reporting across all major regulatory requirements.</div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin-bottom: 40px;">
+    <!-- SEC Column -->
+    <div class="card" style="border-left: 4px solid var(--accent);">
+      <div class="card-title" style="color: var(--accent-light); margin-bottom: 12px;">SEC Rules</div>
+      <div style="display: flex; flex-direction: column; gap: 6px; font-size: 13px;">
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">15c3-1</span> <span style="color: var(--text-dim);">Net Capital</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">15c3-3</span> <span style="color: var(--text-dim);">Customer Protection</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">17a-3</span> <span style="color: var(--text-dim);">Records</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">17a-4</span> <span style="color: var(--text-dim);">Retention</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">Reg SHO</span> <span style="color: var(--text-dim);">Short Sales</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">Reg NMS</span> <span style="color: var(--text-dim);">Best Execution</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">Reg T</span> <span style="color: var(--text-dim);">Credit Extension</span></div>
+      </div>
+    </div>
+    <!-- FINRA Column -->
+    <div class="card" style="border-left: 4px solid var(--green);">
+      <div class="card-title" style="color: var(--green); margin-bottom: 12px;">FINRA Rules</div>
+      <div style="display: flex; flex-direction: column; gap: 6px; font-size: 13px;">
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">4210</span> <span style="color: var(--text-dim);">Margin</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">3110</span> <span style="color: var(--text-dim);">Supervision</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">3120</span> <span style="color: var(--text-dim);">Compliance System</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">4370</span> <span style="color: var(--text-dim);">Business Continuity</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">6730</span> <span style="color: var(--text-dim);">TRACE Reporting</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">7440</span> <span style="color: var(--text-dim);">CAT Reporting</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">2111</span> <span style="color: var(--text-dim);">Suitability</span></div>
+      </div>
+    </div>
+    <!-- FinCEN / BSA -->
+    <div class="card" style="border-left: 4px solid var(--yellow);">
+      <div class="card-title" style="color: var(--yellow); margin-bottom: 12px;">FinCEN / BSA</div>
+      <div style="display: flex; flex-direction: column; gap: 6px; font-size: 13px;">
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">CIP</span> <span style="color: var(--text-dim);">Identity Verification</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">CDD</span> <span style="color: var(--text-dim);">Customer Due Diligence</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">SAR</span> <span style="color: var(--text-dim);">Suspicious Activity Reports</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">CTR</span> <span style="color: var(--text-dim);">Currency Transaction Reports</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">314(a)</span> <span style="color: var(--text-dim);">Info Sharing</span></div>
+      </div>
+    </div>
+    <!-- Other -->
+    <div class="card" style="border-left: 4px solid var(--purple);">
+      <div class="card-title" style="color: #a78bfa; margin-bottom: 12px;">Additional</div>
+      <div style="display: flex; flex-direction: column; gap: 6px; font-size: 13px;">
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">SIPC</span> <span style="color: var(--text-dim);">Customer Protection</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">OFAC</span> <span style="color: var(--text-dim);">Sanctions Screening</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">SOX</span> <span style="color: var(--text-dim);">Internal Controls</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">GDPR</span> <span style="color: var(--text-dim);">Data Privacy (EU)</span></div>
+        <div><span style="color: var(--cyan); font-family: monospace; font-weight: 700;">CCPA</span> <span style="color: var(--text-dim);">Data Privacy (CA)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reporting Engine -->
+  <div class="section-label">FINRA Reporting Engine</div>
+  <div style="margin-bottom: 32px;">
+    <table class="cap-table">
+      <thead><tr><th>Report</th><th>Regulation</th><th>Frequency</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>FOCUS Report</td><td>SEC Rule 17a-5</td><td>Monthly/Quarterly</td><td class="status s-live">🟢 AUTO</td></tr>
+        <tr><td>CAT Reporting</td><td>FINRA Rule 7440</td><td>T+1 Daily</td><td class="status s-live">🟢 AUTO</td></tr>
+        <tr><td>TRACE</td><td>FINRA Rule 6730</td><td>Within 15 min</td><td class="status s-live">🟢 REAL-TIME</td></tr>
+        <tr><td>OATS</td><td>FINRA Rule 7440</td><td>T+1 Daily</td><td class="status s-live">🟢 AUTO</td></tr>
+        <tr><td>Blue Sheets</td><td>SEC Rule 17a-25</td><td>On Demand</td><td class="status s-live">🟢 AUTO</td></tr>
+        <tr><td>Large Trader</td><td>SEC Rule 13h-1</td><td>As Required</td><td class="status s-live">🟢 AUTO</td></tr>
+        <tr><td>Short Interest</td><td>FINRA Rule 4560</td><td>Bi-Monthly</td><td class="status s-live">🟢 AUTO</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Net Capital & Customer Protection -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px;">
+    <div class="card" style="border-top: 3px solid var(--accent);">
+      <div class="card-title">SEC Rule 15c3-1 — Net Capital</div>
+      <div class="card-desc" style="margin-bottom: 12px;">Automated daily net capital computation with real-time breach detection and early warning alerts.</div>
+      <div style="font-size: 12px; color: var(--text-dim);">
+        <div style="margin-bottom: 4px;">✓ Daily automated computation</div>
+        <div style="margin-bottom: 4px;">✓ Real-time breach detection</div>
+        <div style="margin-bottom: 4px;">✓ Early warning system (120% trigger)</div>
+        <div>✓ Haircut schedule automation</div>
+      </div>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--green);">
+      <div class="card-title">SEC Rule 15c3-3 — Customer Protection</div>
+      <div class="card-desc" style="margin-bottom: 12px;">Weekly reserve formula computation ensuring customer assets remain protected and segregated.</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px;">
+        <div style="background: var(--surface2); padding: 8px; border-radius: 6px; text-align: center;">
+          <div style="color: var(--accent-light); font-weight: 700;">Credits</div>
+          <div style="color: var(--text-dim);">Free credit + short MV</div>
+        </div>
+        <div style="background: var(--surface2); padding: 8px; border-radius: 6px; text-align: center;">
+          <div style="color: var(--red); font-weight: 700;">Debits</div>
+          <div style="color: var(--text-dim);">Debit bal + long MV</div>
+        </div>
+        <div style="background: var(--green-bg); padding: 8px; border-radius: 6px; text-align: center; grid-column: 1/-1;">
+          <div style="color: var(--green); font-weight: 700;">Reserve = Credits − Debits</div>
+          <div style="color: var(--text-dim);">Weekly computation cycle</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── AML/KYC ───────────────────────────────── -->
+<section style="border-top: 1px solid var(--border);">
+  <div class="section-label">Compliance Engine</div>
+  <div class="section-title">AML / BSA Compliance Suite</div>
+  <div class="section-desc">End-to-end anti-money laundering with real-time screening and automated filing.</div>
+
+  <div class="aml-grid">
+    <div class="aml-card">
+      <div class="aml-icon">🔍</div>
+      <div><div class="aml-title">Transaction Monitoring</div><div class="aml-desc">Suspicious activity detection via rule engine + ML. Real-time pattern analysis across all accounts.</div></div>
+    </div>
+    <div class="aml-card">
+      <div class="aml-icon">🆔</div>
+      <div><div class="aml-title">CIP / KYC</div><div class="aml-desc">Identity verification &amp; risk rating. Multi-source verification with CDD and Enhanced Due Diligence.</div></div>
+    </div>
+    <div class="aml-card">
+      <div class="aml-icon">🌍</div>
+      <div><div class="aml-title">OFAC Screening</div><div class="aml-desc">Real-time sanctions screening with fuzzy matching against SDN list. Continuous monitoring.</div></div>
+    </div>
+    <div class="aml-card">
+      <div class="aml-icon">📝</div>
+      <div><div class="aml-title">SAR Filing</div><div class="aml-desc">Automated suspicious activity reports via FinCEN BSA E-Filing system integration.</div></div>
+    </div>
+    <div class="aml-card">
+      <div class="aml-icon">💵</div>
+      <div><div class="aml-title">CTR Filing</div><div class="aml-desc">Currency transaction reports for transactions exceeding $10K. Automated aggregation and structuring detection.</div></div>
+    </div>
+    <div class="aml-card">
+      <div class="aml-icon">🔗</div>
+      <div><div class="aml-title">314(a) Requests</div><div class="aml-desc">Law enforcement information sharing — encrypted match against FinCEN requests.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── RISK ENGINE ───────────────────────────── -->
+<section id="risk" style="border-top: 1px solid var(--border);">
+  <div class="section-label">Risk Management</div>
+  <div class="section-title">Real-Time Risk Metrics</div>
+  <div class="section-desc">Pre-trade and post-trade risk checks with automated circuit breakers and escalation.</div>
+
+  <div class="risk-grid">
+    <div class="risk-card">
+      <div class="risk-icon">🔴</div>
+      <div>
+        <div class="risk-name">Portfolio VaR</div>
+        <div class="risk-detail">Historical simulation (99%, 1-day) — $2M firm-wide threshold</div>
+        <div class="risk-action halt">Auto-hedge + alert</div>
+      </div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-icon">🟡</div>
+      <div>
+        <div class="risk-name">Greeks (Delta)</div>
+        <div class="risk-detail">Real-time Black-Scholes — ±$500K portfolio threshold</div>
+        <div class="risk-action alert">Alert desk head</div>
+      </div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-icon">🟡</div>
+      <div>
+        <div class="risk-name">Sector Concentration</div>
+        <div class="risk-detail">Portfolio weight per sector — 25% single sector limit</div>
+        <div class="risk-action alert">Block new orders</div>
+      </div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-icon">🔴</div>
+      <div>
+        <div class="risk-name">Counterparty Exposure</div>
+        <div class="risk-detail">Net settlement exposure — $1M per counterparty</div>
+        <div class="risk-action halt">Alert + escalate</div>
+      </div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-icon">🟢</div>
+      <div>
+        <div class="risk-name">Margin Utilization</div>
+        <div class="risk-detail">Used margin / available margin — 85% utilization threshold</div>
+        <div class="risk-action warn">Warning to client</div>
+      </div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-icon">🔴</div>
+      <div>
+        <div class="risk-name">Intraday P&amp;L</div>
+        <div class="risk-detail">Mark-to-market real-time — −$500K daily loss limit</div>
+        <div class="risk-action halt">Trading halt</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SETTLEMENT ────────────────────────────── -->
+<section style="border-top: 1px solid var(--border);">
+  <div class="section-label">Clearing &amp; Settlement</div>
+  <div class="section-title">DTCC Integration &amp; Reconciliation</div>
+  <div class="section-desc">Full T+1 settlement pipeline with NSCC, DTC, OCC, FICC, and FedWire connectivity.</div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 16px;">
+    <div>
+      <div style="margin-bottom: 8px; font-size: 13px; font-weight: 700; color: var(--accent-light);">DTCC Systems</div>
+      <table class="settle-table">
+        <thead><tr><th>System</th><th>Purpose</th><th>SLA</th></tr></thead>
+        <tbody>
+          <tr><td>NSCC/CNS</td><td>Equities netting &amp; settlement</td><td>T+1</td></tr>
+          <tr><td>DTC</td><td>Securities depository &amp; custody</td><td>Real-time</td></tr>
+          <tr><td>OCC</td><td>Options clearing</td><td>T+1</td></tr>
+          <tr><td>FICC/GSD</td><td>Fixed income clearing</td><td>T+1</td></tr>
+          <tr><td>FedWire</td><td>Cash settlement / wire transfers</td><td>Same-day</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div style="margin-bottom: 8px; font-size: 13px; font-weight: 700; color: var(--green);">Reconciliation Matrix</div>
+      <table class="settle-table">
+        <thead><tr><th>Type</th><th>Frequency</th><th>Tolerance</th></tr></thead>
+        <tbody>
+          <tr><td>Position Recon</td><td>Daily</td><td style="color: var(--green); font-weight: 700;">Zero break</td></tr>
+          <tr><td>Cash Recon</td><td>Daily</td><td style="font-family: monospace;">$0.01</td></tr>
+          <tr><td>Trade Recon</td><td>Real-time</td><td style="color: var(--green); font-weight: 700;">Zero break</td></tr>
+          <tr><td>P&amp;L Recon</td><td>Daily</td><td style="font-family: monospace;">$100</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PERFORMANCE ───────────────────────────── -->
+<section id="performance" style="border-top: 1px solid var(--border);">
+  <div class="section-label">Engineering</div>
+  <div class="section-title">Performance Benchmarks</div>
+  <div class="section-desc">Sub-millisecond latency on critical paths. Rust for the hot path, TypeScript for orchestration.</div>
+
+  <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px;">
+    <div class="bench-row">
+      <div class="bench-label">Tick-to-trade latency</div>
+      <div class="bench-track"><div class="bench-fill" style="width: 36%; background: linear-gradient(90deg, var(--green), var(--cyan));">~180μs</div></div>
+      <div class="bench-target">target &lt; 500μs</div>
+    </div>
+    <div class="bench-row">
+      <div class="bench-label">Market data throughput</div>
+      <div class="bench-track"><div class="bench-fill" style="width: 82%; background: linear-gradient(90deg, var(--accent), var(--purple));">8.2M msg/sec</div></div>
+      <div class="bench-target">target &gt; 5M</div>
+    </div>
+    <div class="bench-row">
+      <div class="bench-label">Order capacity</div>
+      <div class="bench-track"><div class="bench-fill" style="width: 71%; background: linear-gradient(90deg, var(--cyan), var(--accent));">142K orders/sec</div></div>
+      <div class="bench-target">target &gt; 100K</div>
+    </div>
+    <div class="bench-row">
+      <div class="bench-label">FIX message parse</div>
+      <div class="bench-track"><div class="bench-fill" style="width: 40%; background: linear-gradient(90deg, var(--green), #4ade80);">~4μs</div></div>
+      <div class="bench-target">target &lt; 10μs</div>
+    </div>
+    <div class="bench-row">
+      <div class="bench-label">Risk check latency</div>
+      <div class="bench-track"><div class="bench-fill" style="width: 44%; background: linear-gradient(90deg, var(--yellow), var(--orange));">~22μs</div></div>
+      <div class="bench-target">target &lt; 50μs</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TECH STACK ────────────────────────────── -->
+<section style="border-top: 1px solid var(--border);">
+  <div class="section-label">Foundation</div>
+  <div class="section-title">Technology Stack</div>
+  <div class="section-desc">Built on proven infrastructure for institutional-grade reliability.</div>
+
+  <div class="stack-grid">
+    <div class="stack-card">
+      <div class="stack-layer">Language</div>
+      <div class="stack-tech">TypeScript</div>
+      <div class="stack-purpose">Primary language — 84.3%</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-layer">Low Latency</div>
+      <div class="stack-tech">Rust</div>
+      <div class="stack-purpose">Feed handler, hot path</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-layer">ML / Analytics</div>
+      <div class="stack-tech">Python</div>
+      <div class="stack-purpose">Trade surveillance, analytics</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-layer">Runtime</div>
+      <div class="stack-tech">Node.js ≥ 22</div>
+      <div class="stack-purpose">Service runtime</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-layer">Orchestration</div>
+      <div class="stack-tech">Kubernetes</div>
+      <div class="stack-purpose">Container orchestration</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-layer">Streaming</div>
+      <div class="stack-tech">Kafka</div>
+      <div class="stack-purpose">Event streaming backbone</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-layer">Database</div>
+      <div class="stack-tech">PostgreSQL 16</div>
+      <div class="stack-purpose">Primary datastore</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-layer">Time-Series</div>
+      <div class="stack-tech">TimescaleDB</div>
+      <div class="stack-purpose">Market data, metrics</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-layer">Cache</div>
+      <div class="stack-tech">Redis</div>
+      <div class="stack-purpose">Cache + pub/sub</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-layer">Secrets</div>
+      <div class="stack-tech">Vault</div>
+      <div class="stack-purpose">Secrets management</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-layer">Observability</div>
+      <div class="stack-tech">Datadog</div>
+      <div class="stack-purpose">APM, logs, metrics</div>
+    </div>
+    <div class="stack-card">
+      <div class="stack-layer">Build</div>
+      <div class="stack-tech">Turbo + pnpm</div>
+      <div class="stack-purpose">Monorepo pipeline</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SECURITY ──────────────────────────────── -->
+<section id="security" style="border-top: 1px solid var(--border);">
+  <div class="section-label">Defense in Depth</div>
+  <div class="section-title">Security Architecture</div>
+  <div class="section-desc">Five-layer security model from network edge to operational compliance.</div>
+
+  <div class="sec-layers">
+    <div class="sec-layer">
+      <div class="sec-layer-num">1</div>
+      <div class="sec-layer-name">Network</div>
+      <div class="sec-layer-tech">WAF · DDoS Protection · TLS 1.3 · VPC Isolation · ACLs</div>
+    </div>
+    <div class="sec-layer">
+      <div class="sec-layer-num">2</div>
+      <div class="sec-layer-name">Identity</div>
+      <div class="sec-layer-tech">OAuth 2.0 + OIDC · MFA (TOTP/FIDO2) · RBAC · Session Management</div>
+    </div>
+    <div class="sec-layer">
+      <div class="sec-layer-num">3</div>
+      <div class="sec-layer-name">Application</div>
+      <div class="sec-layer-tech">Input Validation · Rate Limiting · CORS · CSP · CSRF Tokens</div>
+    </div>
+    <div class="sec-layer">
+      <div class="sec-layer-num">4</div>
+      <div class="sec-layer-name">Data</div>
+      <div class="sec-layer-tech">AES-256 at Rest · TLS in Transit · Field-Level Encryption · PII Tokenization · Key Rotation</div>
+    </div>
+    <div class="sec-layer">
+      <div class="sec-layer-num">5</div>
+      <div class="sec-layer-name">Operational</div>
+      <div class="sec-layer-tech">SOC 2 Type II · Pen Testing · Incident Response · BCP (FINRA 4370) · DR</div>
+    </div>
+  </div>
+
+  <!-- Access Control Matrix -->
+  <div style="margin-top: 32px;">
+    <div class="section-label">Access Control</div>
+    <table class="cap-table" style="margin-top: 12px;">
+      <thead><tr><th>Role</th><th>Trading</th><th>Risk</th><th>Compliance</th><th>Admin</th><th>Audit</th></tr></thead>
+      <tbody>
+        <tr><td>Trader</td><td style="color: var(--green);">✅ Full</td><td>👁️ Read</td><td>❌</td><td>❌</td><td>❌</td></tr>
+        <tr><td>Risk Manager</td><td>👁️ Read</td><td style="color: var(--green);">✅ Full</td><td>👁️ Read</td><td>❌</td><td>👁️ Read</td></tr>
+        <tr><td>Compliance Officer</td><td>👁️ Read</td><td>👁️ Read</td><td style="color: var(--green);">✅ Full</td><td>❌</td><td style="color: var(--green);">✅ Full</td></tr>
+        <tr><td>Operations</td><td>👁️ Read</td><td>👁️ Read</td><td>👁️ Read</td><td style="color: var(--green);">✅ Full</td><td>👁️ Read</td></tr>
+        <tr><td>Auditor</td><td>👁️ Read</td><td>👁️ Read</td><td>👁️ Read</td><td>❌</td><td style="color: var(--green);">✅ Full</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ─── DEPLOYMENT PIPELINE ───────────────────── -->
+<section style="border-top: 1px solid var(--border);">
+  <div class="section-label">CI/CD</div>
+  <div class="section-title">Deployment Pipeline</div>
+  <div class="section-desc">Six-stage pipeline from build to blue/green production deployment.</div>
+
+  <div class="pipeline">
+    <div class="pipe-step">
+      <div class="step-dot" style="background: var(--accent); color: #fff;">1</div>
+      <div class="step-label">Build</div>
+      <div class="step-desc">Type check + Lint (~2 min)</div>
+    </div>
+    <div class="pipe-step">
+      <div class="step-dot" style="background: var(--purple); color: #fff;">2</div>
+      <div class="step-label">Test</div>
+      <div class="step-desc">94% coverage gate (~5 min)</div>
+    </div>
+    <div class="pipe-step">
+      <div class="step-dot" style="background: var(--yellow); color: #000;">3</div>
+      <div class="step-label">Security</div>
+      <div class="step-desc">Snyk + CodeQL (~3 min)</div>
+    </div>
+    <div class="pipe-step">
+      <div class="step-dot" style="background: var(--orange); color: #fff;">4</div>
+      <div class="step-label">Compliance</div>
+      <div class="step-desc">Rule validation (~2 min)</div>
+    </div>
+    <div class="pipe-step">
+      <div class="step-dot" style="background: var(--green); color: #fff;">5</div>
+      <div class="step-label">Staging</div>
+      <div class="step-desc">Smoke + E2E (~5 min)</div>
+    </div>
+    <div class="pipe-step">
+      <div class="step-dot" style="background: var(--red); color: #fff;">6</div>
+      <div class="step-label">Production</div>
+      <div class="step-desc">Blue/green deploy</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MONITORING ────────────────────────────── -->
+<section style="border-top: 1px solid var(--border);">
+  <div class="section-label">Observability</div>
+  <div class="section-title">Monitoring &amp; Audit Trail</div>
+  <div class="section-desc">Full-stack observability with regulatory-grade record retention.</div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 16px;">
+    <div>
+      <div style="margin-bottom: 8px; font-size: 13px; font-weight: 700; color: var(--accent-light);">Dashboards</div>
+      <table class="settle-table">
+        <thead><tr><th>Dashboard</th><th>Alert Threshold</th></tr></thead>
+        <tbody>
+          <tr><td>📈 Trading</td><td>Latency &gt; 1ms</td></tr>
+          <tr><td>🔴 Risk</td><td>VaR breach, loss limit</td></tr>
+          <tr><td>💰 Net Capital</td><td>Below minimum</td></tr>
+          <tr><td>🔒 AML</td><td>Backlog &gt; 24h</td></tr>
+          <tr><td>🖥️ Infrastructure</td><td>85% utilization</td></tr>
+          <tr><td>📡 Market Data</td><td>Feed delay &gt; 5s</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div style="margin-bottom: 8px; font-size: 13px; font-weight: 700; color: var(--green);">Data Retention</div>
+      <table class="settle-table">
+        <thead><tr><th>Component</th><th>Tool</th><th>Retention</th></tr></thead>
+        <tbody>
+          <tr><td>App Logs</td><td>Datadog</td><td>90d hot / 7yr cold</td></tr>
+          <tr><td>Traces</td><td>Datadog APM</td><td>15 days</td></tr>
+          <tr><td>Metrics</td><td>Datadog</td><td>15 months</td></tr>
+          <tr><td>Audit Trail</td><td>Immutable Ledger</td><td style="color: var(--green); font-weight: 700;">7+ years (WORM)</td></tr>
+          <tr><td>Trade Records</td><td>PostgreSQL</td><td style="color: var(--green); font-weight: 700;">6+ years (17a-4)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ───────────────────────────────────── -->
+<div class="cta-section">
+  <h2>Institutional-Grade Infrastructure</h2>
+  <p>SEC Registered · FINRA Member · SIPC Member · SOC 2 Type II</p>
+  <a class="cta-btn" href="https://portfolio.unykorn.org/systems/broker-dealer" target="_blank">View in Portfolio Atlas ↗</a>
+</div>
+
+<!-- ─── FOOTER ────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-badges">
+      <span>SEC Registered Broker-Dealer</span>
+      <span>·</span>
+      <span>FINRA Member</span>
+      <span>·</span>
+      <span>SIPC Member</span>
+    </div>
+    <div>© 2024–2026 FTH Trading LLC. All rights reserved. Proprietary &amp; confidential.</div>
+    <div style="margin-top: 8px;">
+      <a href="https://portfolio.unykorn.org" target="_blank">portfolio.unykorn.org</a>
+      &nbsp;·&nbsp;
+      <a href="https://taxes.unykorn.org" target="_blank">taxes.unykorn.org</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
