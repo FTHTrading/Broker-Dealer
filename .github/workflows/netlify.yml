@@ -1,0 +1,43 @@
+name: Deploy to Netlify
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          cache-dependency-path: apps/broker-dealer/pnpm-lock.yaml
+
+      - name: Install dependencies
+        working-directory: apps/broker-dealer
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+
+      - name: Deploy to Netlify
+        run: netlify deploy --prod --build
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          SMTP_HOST: smtp.zoho.com
+          SMTP_PORT: "587"
+          SMTP_SECURE: "false"
+          SMTP_USER: kevan@unykorn.org
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          CONTACT_TO_EMAIL: kevan@unykorn.org
+          CONTACT_FROM_NAME: FTH Capital Markets
+          CONTACT_FROM_EMAIL: kevan@unykorn.org
