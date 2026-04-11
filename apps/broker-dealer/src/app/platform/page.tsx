@@ -1,169 +1,243 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 
-const BUILT_MODULES = [
+export const metadata: Metadata = {
+  title: 'Platform — Digital Securities OS Modules',
+  description: 'Module-level breakdown of the Dignity UnyKorn Digital Securities Operating System: issuer governance, securities workflow, transfer control, reserve proof, valuation, treasury, investor portal, secondary readiness, and disclosure.',
+}
+
+const PLATFORM_MODULES = [
   {
-    category: 'Custody Infrastructure',
-    color: '#5b6ef4',
-    modules: [
-      { name: 'Fireblocks Core', detail: '6 custom modules · 12 vault roles · RS256 JWT per-request auth · HTTP retry with exponential backoff · vault types, vault client, transaction client' },
-      { name: 'BitGo Secondary Custody', detail: 'Threshold key management · configurable failover policies · hot/warm/cold wallet segmentation · multi-signature authorization' },
-      { name: 'Anchorage Digital', detail: 'Institutional cold storage · long-duration asset custody · regulatory-grade key ceremony procedures · HSM-backed signing' },
-      { name: 'APMEX + Brinks', detail: 'Physical gold custody · precious metals logistics · tokenized RWA backing for commodity-linked instruments · chain-of-custody documentation' },
-      { name: 'Multi-Custodian Approval Engine', detail: 'Auto-approve · single-sign · dual-control · committee threshold · quorum-based releasing · time-lock on large transactions' },
-      { name: 'Custody Reconciliation', detail: 'Automated ledger matching · failed-settlement retry queues · escalation routing · out-of-band alert delivery · daily balance attestation' },
+    title: 'Issuer Governance Console',
+    color: '#c9a84c',
+    summary: 'Board-level controls, issuance authorization, governance workflow, and operational audit discipline.',
+    capabilities: [
+      'Board resolution tracking: approval records, quorum verification, and vote outcome documentation.',
+      'Issuance authorization: multi-signer approval gates before any security can be created or modified.',
+      'Governance workflow: structured approval chains for material decisions — pricing, allocation, distribution.',
+      'Officer and director registry: key person identification, role assignment, and signing authority.',
+      'Audit trail: every governance action timestamped, signed, and linked to the authorizing resolution.',
     ],
+    audience: 'Boards, Issuers, Counsel',
   },
   {
-    category: 'Settlement & Payment Rails',
-    color: '#2bb5a0',
-    modules: [
-      { name: 'StablecoinRail', detail: 'Multi-chain stablecoin movement · USDC · USDT · DAI · RLUSD · Proprietary · 8+ chains · route selection and fee optimization' },
-      { name: 'PaymentIntent', detail: 'Deterministic payment lifecycle · idempotency guarantees · auto-retry on transient failure · state machine with full event log per transition' },
-      { name: 'SettlementRecorder', detail: 'Immutable settlement capture · every movement hash-anchored · Stellar + Ethereum + XRPL + EVM chains · 7-year retention' },
-      { name: 'Wire / ACH Rails', detail: 'Plaid bank verification + Dwolla ACH · bank partner wire routing · same-day ACH · reconciliation matching engine · dispute workflow' },
-      { name: 'Private Settlement Rails', detail: 'Off-chain settlement proofs · zero public chain exposure · institutional-only · privacy-preserving · zkProof-compatible architecture' },
-      { name: 'FundingOrchestrator', detail: '6 onramp partners integrated · automated deposit detection · classification + routing · deposit-to-allocation pipeline · de-duplication' },
+    title: 'Securities Onboarding Engine',
+    color: '#2563eb',
+    summary: 'Investor identification, qualification, suitability capture, subscription control, and exemption-track orchestration.',
+    capabilities: [
+      'KYC/KYB intake: identity verification, beneficial ownership, and entity documentation.',
+      'Accreditation verification: income, net worth, professional certification, or entity qualification.',
+      'Suitability assessment: risk tolerance, investment experience, concentration limits, and Reg BI scoring.',
+      'Exemption routing: Reg D 506(b), 506(c), Reg S, or Reg A+ — each with distinct qualification requirements.',
+      'Subscription control: document delivery, e-signature, payment instruction, and closing confirmation.',
     ],
+    audience: 'Broker-Dealers, Issuers',
   },
   {
-    category: 'Rust Performance Engine',
-    color: '#e05a2b',
-    modules: [
-      { name: 'Bond & RWA Processing Core', detail: 'Sub-millisecond yield calculation · memory-safe deterministic execution · zero-cost abstraction over settlement primitives · no GC pauses' },
-      { name: 'Stablecoin Issuance Engine', detail: 'Rust-native mint / burn / reserve management · audit-compliant reserve ledger · regulatory reporting hooks · reserve attestation pipeline' },
-      { name: 'WASM Policy Engine', detail: 'Cross-platform enforcement without VM overhead · compiled from Rust · deploy at edge or on-chain · transfer restriction evaluation at <1ms' },
-      { name: 'Zero-Copy State Serialization', detail: 'On-chain state transition encoding · memory-safe without GC pressure · deterministic byte layout for audit-trail compatibility' },
-      { name: 'Custody Transaction Validator', detail: 'Compile-time safety guarantees · rule-checked before wire transmission · immutable validation receipts · panic-free error handling' },
-      { name: 'Yield Distribution Engine', detail: '7-state bond lifecycle · Draft → Offered → Subscribing → Funded → Active → Maturing → Matured · coupon automation · pro-rata calculation' },
+    title: 'Transfer Control Registry',
+    color: '#ef4444',
+    summary: 'Wallet allowlists, restriction enforcement, counterparty verification, and compliance-gated movement.',
+    capabilities: [
+      'Default restriction: every security starts restricted. No transfer unless explicitly approved.',
+      'Allowlist management: counterparty identity, qualification status, and holding eligibility verified before transfer.',
+      'Lockup enforcement: time-based holds with countdown tracking and restriction release scheduling.',
+      'Freeze and clawback: issuer and regulatory authority to halt transfers or recover securities when required.',
+      'Off-chain pre-clearance: transfer eligibility determined before any on-chain movement is attempted.',
     ],
+    audience: 'Broker-Dealers, Transfer Agents, Counsel',
   },
   {
-    category: 'Oracle & Data Infrastructure',
-    color: '#d4a843',
-    modules: [
-      { name: 'Chainlink Data Feeds', detail: '200+ price pairs · decentralized aggregation · manipulation-resistant · real-time mark-to-market for RWA and bond positions' },
-      { name: 'Chainlink Proof of Reserve', detail: 'Real-time on-chain custody verification · reserve attestation for proprietary stablecoin · automated anomaly detection and alerts' },
-      { name: 'Chainlink CCIP', detail: 'Cross-chain interoperability protocol · multi-chain asset movement with cryptographic security · programmable token transfers across chains' },
-      { name: 'Chainlink Automation', detail: 'Keeper-driven coupon events · yield distributions · offering expirations · rights offering deadlines · no manual trigger required' },
-      { name: 'TimescaleDB Cluster', detail: 'Tick-level market data · 5-year hot retention · hypertable compression · continuous aggregates for OHLCV and order book snapshots' },
-      { name: 'ClickHouse Analytics', detail: 'TCA engine · trade analytics · regulatory reporting · audit queries at scale · sub-second aggregation across years of timestamped events' },
-    ],
-  },
-  {
-    category: 'Compliance Engine',
-    color: '#8b5cf6',
-    modules: [
-      { name: 'KYC — Persona', detail: 'Government ID verification · liveness detection · database cross-checks · auto-pass / manual review routing · 200+ country coverage' },
-      { name: 'KYB — Middesk', detail: 'Business identity verification · Secretary of State record checks · UBO identification · beneficial ownership mapping · EIN verification' },
-      { name: 'Sanctions — ComplyAdvantage', detail: 'OFAC SDN list · PEP screening · adverse media monitoring · real-time rescreening · automated SAR preparation queue' },
-      { name: 'Accreditation — Parallel Markets', detail: 'Income + net worth verification · professional certification · letter of counsel pathway · automated re-verification triggers' },
-      { name: 'Reg BI / Suitability Engine', detail: 'Per-investor per-offering scoring · Best Interest analysis · conflict of interest disclosure tracking · supervisory review queues' },
-      { name: 'VaultLedger (WORM Audit)', detail: 'Append-only hash-chained · every action timestamped and signed · SEC 17a-4 compliant · 7+ year retention · examiner export API' },
-      { name: 'Regulatory Reporting Pipelines', detail: 'CAT T+1 FINRA submission · TRACE 15-min bond reporting · FinCEN SAR/CTR · EDGAR Form D · Blue Sky state database filings' },
-      { name: 'Transfer Control Policy Engine', detail: 'Whitelist/blacklist enforcement · lockup period tracking · affiliate status gates · accreditation requirements · WASM-compiled rule modules' },
-    ],
-  },
-  {
-    category: 'Digital Issuance & Registry',
-    color: '#06b6d4',
-    modules: [
-      { name: 'XRPL Tokenization Layer', detail: 'SEC-compliant digital securities · freeze + clawback + legend controls · deterministic token ID scheme · regulatory action hooks' },
-      { name: 'On-Chain Bond Registry', detail: 'Synchronized with authoritative legal registry · XRPL on-chain state · dual-record consistency checks · real-time position reconciliation' },
-      { name: 'EVM Execution Layer', detail: '8 chains · smart contract deployment · interaction layer · contract upgrade governance · proxy patterns for regulatory compliance' },
-      { name: 'ATS / Transfer Agent Hooks', detail: 'Secondary market connectivity · transfer agent partner APIs · Carta cap table bi-directional sync · post-close holder registry management' },
-      { name: 'Policy-Gated Transfer Engine', detail: 'Every token transfer compliance-evaluated before execution · failed transfer reason codes · investor notification pipeline' },
-      { name: 'Rights Offering Engine', detail: 'Record-date import · entitlement calculation · subscription portal · oversubscription handling · payment reconciliation · closing automation' },
-    ],
-  },
-  {
-    category: 'Capital Operations System',
+    title: 'Reserve Proof & Collateral Intelligence',
     color: '#10b981',
-    modules: [
-      { name: 'Capital OS Core', detail: 'Wire intake → KYC/AML → XRPL settlement → yield distribution → redemption · 165 automated test assertions · 6 operational guardrails in production' },
-      { name: 'Investor Onboarding Pipeline', detail: '5-step flow: application → identity → accreditation → risk assessment → account activation · full compliance evidence store at each step' },
-      { name: 'Subscription Room', detail: 'Gated investor portal · compliance-status-driven access · document delivery · DocuSign e-sign integration · NDA audit trail' },
-      { name: 'Allocation Engine', detail: 'Pro-rata allocation · discretionary overrides · multi-tranche support · partial-close mechanics · soft and hard cap enforcement' },
-      { name: 'Post-Close Administration', detail: 'Ongoing holder management · corporate actions · covenant tracking · coupon events · communication archive · K-1 / 1099 tax reporting' },
-      { name: 'Agentic Operations Layer', detail: 'Deal Agent · Compliance Agent · Investor Agent · Treasury Agent · Rights Agent · Issuance Agent · all human-approved before regulated action' },
+    summary: 'Collateral documentation, independent verification, ongoing monitoring, and disclosure controls for asset-backed offerings.',
+    capabilities: [
+      'Claim documentation: asset description, pledge agreements, title evidence, and chain of custody.',
+      'Independent verification: third-party audit attestation, custodian confirmation, and assay reports.',
+      'Lien and encumbrance search: UCC filings, title search, and competing claim identification.',
+      'Ongoing monitoring: periodic re-verification, material change alerts, and collateral ratio tracking.',
+      'Disclosure controls: investor-facing reserve reports, formatted and delivered on auditable schedule.',
     ],
+    audience: 'Issuers, Investors, Regulators',
   },
   {
-    category: 'Auth, Infrastructure & Observability',
-    color: '#ec4899',
-    modules: [
-      { name: 'Auth System', detail: 'OAuth 2.0 · granular RBAC · MFA · session management · API key rotation · role hierarchy: Admin → Principal → Compliance → Banker → Investor' },
-      { name: 'Kubernetes Infrastructure', detail: '3-node control plane · multi-AZ worker pools · Active-Active · rolling deploys · HPA + VPA for load elasticity · PodDisruptionBudgets' },
-      { name: 'Service Mesh (Istio)', detail: 'mTLS between all services · circuit breaking · retry policies · observability injection · zero-trust pod-to-pod communication' },
-      { name: 'API Gateway (Kong)', detail: 'Rate limiting · auth enforcement · request routing · plugin-based middleware · audit log injection at ingress · developer portal' },
-      { name: 'Provider Abstraction Layer', detail: '6 typed interfaces: Custody · Stablecoin · Oracle · Proof · Ledger · Treasury · Adapters: Fireblocks · BitGo · XRPL · Chainlink · Circle · Ripple' },
-      { name: 'Observability Stack', detail: 'Prometheus + Grafana · distributed tracing · alert routing · P99 latency budgets per service · SLA dashboards · on-call runbooks' },
+    title: 'Valuation & Reporting Engine',
+    color: '#8b5cf6',
+    summary: 'NAV calculation, methodology transparency, issuer reporting, investor reporting, and post-close servicing controls.',
+    capabilities: [
+      'NAV calculation: net asset value from audited inputs with methodology and assumption disclosure.',
+      'Issuer reporting: reserve status, financial statements, material events, and compliance attestations.',
+      'Investor reporting: position summary, distribution history, tax documents, and restriction status.',
+      'Update triggers: scheduled recalculation dates and event-driven revaluation conditions.',
+      'Audit-ready trail: every valuation change linked to input data change with timestamp and source.',
     ],
+    audience: 'Issuers, Investors, Auditors',
   },
-]
+  {
+    title: 'Treasury, Custody & Settlement',
+    color: '#06b6d4',
+    summary: 'Subscription intake, custody-managed settlement, token delivery, reconciliation, and operating ledger support.',
+    capabilities: [
+      'Subscription intake: payment processing, deposit matching, and funding confirmation.',
+      'Custody coordination: custodian-aware settlement with multi-party authorization and approval gates.',
+      'Token delivery: security issuance on authorized ledger after all compliance and payment conditions met.',
+      'Reconciliation: automated ledger matching, failed-settlement handling, and daily balance attestation.',
+      'Operating ledger: authoritative record of all treasury movements, distributions, and redemptions.',
+    ],
+    audience: 'Issuers, Broker-Dealers, Treasury',
+  },
+  {
+    title: 'Investor Portal',
+    color: '#f59e0b',
+    summary: 'Investor-facing access to positions, documents, communications, and servicing — scoped by qualification and holding.',
+    capabilities: [
+      'Position dashboard: holdings, cost basis, current NAV, unrealized gain/loss, and distribution history.',
+      'Document room: subscription confirmations, offering documents, K-1s, 1099s, and ongoing disclosures.',
+      'Communication log: all investor-facing messages, alerts, and acknowledgment receipts.',
+      'Transfer history: all transfers, restriction status, lockup countdown, and restriction release dates.',
+      'Qualification status: current accreditation, suitability, and eligibility status with re-verification dates.',
+    ],
+    audience: 'Investors',
+  },
+  {
+    title: 'Secondary-Readiness Layer',
+    color: '#ec4899',
+    summary: 'ATS connectivity, transfer agent coordination, and secondary market preparation without assuming public liquidity.',
+    capabilities: [
+      'ATS integration hooks: connectivity to registered alternative trading systems for restricted securities.',
+      'Transfer agent coordination: cap-table updates, restriction releases, and ownership confirmation.',
+      'Matching and settlement: order matching with compliance-gated execution and settlement finality.',
+      'Restriction carriage: transfer restrictions travel with the security through any secondary movement.',
+      'Volume and eligibility controls: holding period, qualification, and concentration limits enforced at trade.',
+    ],
+    audience: 'Broker-Dealers, ATS Operators',
+  },
+  {
+    title: 'Public Disclosure Control',
+    color: '#64748b',
+    summary: 'Regulatory filing readiness, material event disclosures, and public-facing information management.',
+    capabilities: [
+      'Form D filing: initial and amended filings with state blue-sky notification tracking.',
+      'Material event disclosure: triggered by predefined conditions — not discretionary timing.',
+      'Document version control: every disclosure versioned, timestamped, and delivery-tracked.',
+      'Regulatory submission formatting: pre-formatted packages for SEC, FINRA, and state regulators.',
+      'Public information management: controlled release of offering-related information with legal review gates.',
+    ],
+    audience: 'Counsel, Regulators, Issuers',
+  },
+] as const
 
-const ACTIVATION = [
-  { label: 'Configure existing infrastructure', pct: 60, color: '#10b981' },
-  { label: 'Extend for Moody-specific workflows', pct: 25, color: '#5b6ef4' },
-  { label: 'Net-new feature development', pct: 15, color: '#d4a843' },
-]
-
-export const metadata = { title: 'Platform Audit' }
+const TARGET_USERS = [
+  {
+    role: 'Boards & Issuers',
+    color: '#c9a84c',
+    description: 'Governance controls, issuance authorization, reserve proof oversight, and operational reporting.',
+  },
+  {
+    role: 'Counsel & Compliance',
+    color: '#8b5cf6',
+    description: 'Exemption tracking, transfer restriction enforcement, disclosure scheduling, and regulatory filing readiness.',
+  },
+  {
+    role: 'Broker-Dealers',
+    color: '#2563eb',
+    description: 'Investor qualification, suitability assessment, subscription orchestration, and secondary-market preparation.',
+  },
+  {
+    role: 'Investors',
+    color: '#10b981',
+    description: 'Position visibility, distribution tracking, document access, and restriction status — all scoped to their holding.',
+  },
+] as const
 
 export default function PlatformPage() {
   return (
     <main style={{ maxWidth: 1200, margin: '0 auto', padding: '2rem' }}>
 
       <section style={{ padding: '4rem 0 2rem' }}>
-        <p style={{ fontSize: '0.75rem', color: 'var(--color-accent)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>Platform Audit</p>
-        <h1 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.75rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '1rem' }}>Everything that has been built</h1>
-        <p style={{ color: 'var(--color-text-secondary)', fontSize: '1.05rem', lineHeight: 1.7, maxWidth: 860, marginBottom: '2rem' }}>
-          This is not a capabilities list. It is an audit. Every module below is built, type-checked, tested,
-          and integrated into a running production system. 100+ modules across 8 domains. All TypeScript unless
-          noted as Rust. Zero compilation errors. 165 automated test assertions.
+        <p style={{ fontSize: '0.75rem', color: 'var(--color-gold)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+          Platform
         </p>
-        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
-          {ACTIVATION.map((r) => (
-            <div key={r.label} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <div style={{ width: 42, height: 42, borderRadius: '50%', background: r.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '0.85rem', color: '#0a0a0f' }}>{r.pct}%</div>
-              <span style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)' }}>{r.label}</span>
+        <h1 style={{ fontSize: 'clamp(1.75rem, 4vw, 2.75rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '1rem' }}>
+          Nine modules. One operating system for restricted digital securities.
+        </h1>
+        <p style={{ color: 'var(--color-text-secondary)', fontSize: '1.05rem', lineHeight: 1.7, maxWidth: 860, marginBottom: '2rem' }}>
+          This is not a token launch platform. It is an operating system for the full lifecycle of
+          restricted digital securities — from issuer governance and investor qualification through
+          transfer control, reserve proof, reporting, and post-close servicing. Every module
+          exists because the securities demand it.
+        </p>
+      </section>
+
+      <section style={{ marginBottom: '3rem' }}>
+        <h2 style={{ fontSize: '1.35rem', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '0.5rem' }}>
+          Who this is built for
+        </h2>
+        <p style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', lineHeight: 1.65, marginBottom: '1.25rem' }}>
+          Different participants interact with different modules. The platform scopes access, controls, and
+          reporting to each role.
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '0.75rem' }}>
+          {TARGET_USERS.map((u) => (
+            <div key={u.role} style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderTop: `3px solid ${u.color}`, borderRadius: 8, padding: '1.25rem 1.4rem' }}>
+              <div style={{ fontWeight: 700, fontSize: '1rem', marginBottom: '0.4rem' }}>{u.role}</div>
+              <div style={{ fontSize: '0.84rem', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>{u.description}</div>
             </div>
           ))}
         </div>
       </section>
 
-      <div style={{ display: 'grid', gap: '1.5rem', marginBottom: '4rem' }}>
-        {BUILT_MODULES.map((domain) => (
-          <div key={domain.category} style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderLeft: `3px solid ${domain.color}`, borderRadius: 8, overflow: 'hidden' }}>
-            <div style={{ padding: '1rem 1.5rem', borderBottom: '1px solid var(--color-border)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: domain.color, flexShrink: 0 }} />
-              <span style={{ fontWeight: 700, fontSize: '1rem' }}>{domain.category}</span>
-              <span style={{ marginLeft: 'auto', fontSize: '0.75rem', color: 'var(--color-text-secondary)' }}>{domain.modules.length} modules</span>
+      <section style={{ marginBottom: '4rem' }}>
+        <h2 style={{ fontSize: '1.35rem', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: '1.25rem' }}>
+          Module breakdown
+        </h2>
+        <div style={{ display: 'grid', gap: '1.25rem' }}>
+          {PLATFORM_MODULES.map((mod) => (
+            <div key={mod.title} style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderLeft: `3px solid ${mod.color}`, borderRadius: 8, padding: '1.5rem 1.6rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
+                <div style={{ fontWeight: 700, fontSize: '1.1rem' }}>{mod.title}</div>
+                <div style={{ fontSize: '0.7rem', color: mod.color, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{mod.audience}</div>
+              </div>
+              <div style={{ fontSize: '0.86rem', color: 'var(--color-text-secondary)', lineHeight: 1.6, marginBottom: '1rem' }}>{mod.summary}</div>
+              <div style={{ display: 'grid', gap: '0.4rem' }}>
+                {mod.capabilities.map((cap) => (
+                  <div key={cap} style={{ display: 'flex', gap: '0.5rem', fontSize: '0.84rem', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>
+                    <span style={{ color: mod.color, flexShrink: 0, marginTop: '0.15rem' }}>&#8250;</span>
+                    {cap}
+                  </div>
+                ))}
+              </div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))' }}>
-              {domain.modules.map((mod) => (
-                <div key={mod.name} style={{ padding: '1.25rem 1.5rem', borderRight: '1px solid var(--color-border)', borderBottom: '1px solid var(--color-border)' }}>
-                  <div style={{ fontWeight: 600, fontSize: '0.88rem', marginBottom: '0.4rem', color: domain.color }}>{mod.name}</div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--color-text-secondary)', lineHeight: 1.65 }}>{mod.detail}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </section>
 
-      <section style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 8, padding: '2rem', marginBottom: '2rem' }}>
-        <p style={{ fontSize: '0.75rem', color: 'var(--color-gold)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.75rem' }}>Activation Ratio for Moody Capital</p>
-        <p style={{ color: 'var(--color-text-secondary)', lineHeight: 1.8, maxWidth: 800, marginBottom: '1.5rem' }}>
-          <strong style={{ color: 'var(--color-text-primary)' }}>60%</strong> of Moody Capital deployment is configuration of existing
-          production infrastructure. <strong style={{ color: 'var(--color-text-primary)' }}>25%</strong> extends the platform for
-          Moody-specific workflows — rights offerings, debt administration, entitlement engine, Moody role hierarchy,
-          document packages. <strong style={{ color: 'var(--color-text-primary)' }}>15%</strong> is net-new feature development.
-          This is not a build-from-scratch engagement. It is an infrastructure activation.
+      <section style={{ marginBottom: '3.5rem', background: 'linear-gradient(135deg, rgba(201,168,76,0.08), rgba(37,99,235,0.06))', border: '1px solid var(--color-gold)', borderRadius: 8, padding: '2rem 2.2rem' }}>
+        <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '0.6rem' }}>
+          Why this is different from a token site
+        </h3>
+        <p style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', lineHeight: 1.75, marginBottom: '0.75rem' }}>
+          Token launch platforms optimize for distribution speed and retail access. This platform
+          optimizes for restriction enforcement, regulatory discipline, and lifecycle control.
+          Every module assumes the asset is restricted, every transfer is gated, every investor
+          is qualified, and every disclosure is documented.
         </p>
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-          <Link href="/contact" style={{ background: 'var(--color-gold)', color: '#0a0a0f', padding: '0.65rem 1.5rem', borderRadius: 6, fontWeight: 700, fontSize: '0.9rem', textDecoration: 'none' }}>Request Technical Demo</Link>
-          <Link href="/technology" style={{ border: '1px solid var(--color-border)', color: 'var(--color-text-secondary)', padding: '0.65rem 1.5rem', borderRadius: 6, fontWeight: 600, fontSize: '0.9rem', textDecoration: 'none' }}>Technology Stack</Link>
-          <Link href="/markets" style={{ border: '1px solid var(--color-border)', color: 'var(--color-text-secondary)', padding: '0.65rem 1.5rem', borderRadius: 6, fontWeight: 600, fontSize: '0.9rem', textDecoration: 'none' }}>Market Landscape</Link>
+        <p style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', lineHeight: 1.75 }}>
+          The result is not faster token sales. It is institutional-grade infrastructure for
+          securities that require governance, compliance, and reporting throughout their entire lifecycle.
+        </p>
+      </section>
+
+      <section style={{ textAlign: 'center', padding: '2rem 0 1rem' }}>
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Link href="/digau-case" style={{ background: 'var(--color-gold)', color: '#0a0a0f', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 700, textDecoration: 'none' }}>
+            DIGAU CASE STUDY
+          </Link>
+          <Link href="/workflow" style={{ background: 'var(--color-accent)', color: '#fff', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 700, textDecoration: 'none' }}>
+            SECURITIES WORKFLOW
+          </Link>
+          <Link href="/contact" style={{ border: '1px solid var(--color-border)', color: 'var(--color-text-secondary)', padding: '0.75rem 1.75rem', borderRadius: 6, fontWeight: 600, textDecoration: 'none' }}>
+            CONTACT TEAM
+          </Link>
         </div>
       </section>
 

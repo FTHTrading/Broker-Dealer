@@ -4,15 +4,27 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: {
-    default: 'UnyKorn Broker-Dealer System - RWA Issuance and Stablecoin Rails',
-    template: '%s - UnyKorn',
+    default: 'Dignity UnyKorn - Digital Securities Operating System',
+    template: '%s - Dignity UnyKorn',
   },
   description:
-    'Compliance-first broker-dealer partnership system for issuers and asset owners. Launch tokenized offerings, settle with stablecoin rails, and move assets across global jurisdictions.',
-  keywords: ['UnyKorn', 'broker dealer partnership', 'RWA tokenization', 'FINRA', 'private placement', 'stablecoin settlement', 'Reg D', 'Reg S'],
+    'Broker-dealer-grade digital securities platform for restricted real-asset offerings. Built for compliant issuance, investor qualification, transfer controls, reserve proof, valuation reporting, and post-close servicing.',
+  keywords: [
+    'digital securities',
+    'restricted securities',
+    'real world assets',
+    'RWA',
+    'Reg D',
+    'Reg S',
+    'transfer controls',
+    'reserve proof',
+    'capital formation',
+    'broker dealer platform',
+  ],
   openGraph: {
-    title: 'UnyKorn Broker-Dealer System',
-    description: 'Partner-ready issuance and settlement rails for broker-dealers, issuers, and asset owners.',
+    title: 'Dignity UnyKorn',
+    description:
+      'Digital securities infrastructure for restricted real-asset offerings.',
     type: 'website',
   },
 }
@@ -20,17 +32,15 @@ export const metadata: Metadata = {
 const NAV_LINKS = [
   { href: '/', label: 'Overview' },
   { href: '/platform', label: 'Platform' },
-  { href: '/technology', label: 'Technology' },
-  { href: '/services', label: 'Services' },
-  { href: '/markets', label: 'Markets' },
-  { href: '/compliance', label: 'Compliance' },
-  { href: '/operations', label: 'Operations' },
-  { href: '/insights', label: 'Insights' },
+  { href: '/digau-case', label: 'DIGau Case' },
+  { href: '/workflow', label: 'Securities Workflow' },
+  { href: '/reserve-proof', label: 'Reserve Proof' },
+  { href: '/reporting', label: 'Reporting' },
   { href: '/downloads', label: 'Downloads' },
   { href: '/contact', label: 'Contact' },
 ] as const
 
-export default function BrokerDealerLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
@@ -55,18 +65,18 @@ export default function BrokerDealerLayout({ children }: { children: React.React
               letterSpacing: '-0.02em',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.6rem',
+              gap: '0.65rem',
             }}
           >
             <img
               src="/unykorn-logo.png"
-              alt="UnyKorn Logo"
+              alt="Dignity UnyKorn"
               style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '1px solid #1f1f2b' }}
             />
-            <span style={{ color: 'var(--color-gold)' }}>UnyKorn</span> Broker-Dealer System
+            <span style={{ color: 'var(--color-gold)' }}>Dignity</span> UnyKorn
           </Link>
 
-          <nav style={{ display: 'flex', gap: '1.75rem', fontSize: '0.85rem' }}>
+          <nav style={{ display: 'flex', gap: '1.5rem', fontSize: '0.85rem', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
@@ -100,15 +110,16 @@ export default function BrokerDealerLayout({ children }: { children: React.React
           }}
         >
           <div>
-            <p style={{ fontWeight: 600, marginBottom: '0.5rem' }}>UnyKorn Broker-Dealer System</p>
-            <p>Broker-Dealer Partner Infrastructure for Issuance and Settlement</p>
-            <p style={{ marginTop: '0.25rem', fontSize: '0.72rem', opacity: 0.5 }}>FINRA Member | SEC Registered | SIPC Covered</p>
-            <p style={{ marginTop: '0.35rem', fontSize: '0.7rem', opacity: 0.65 }}>5655 Peachtree Parkway, Norcross, GA 30099</p>
+            <p style={{ fontWeight: 600, marginBottom: '0.5rem' }}>Dignity UnyKorn</p>
+            <p>Digital Securities Operating System for Restricted Real-Asset Offerings</p>
+            <p style={{ marginTop: '0.35rem', fontSize: '0.7rem', opacity: 0.65 }}>
+              Compliance-first infrastructure for issuance, qualification, transfer control, reserve proof, and reporting.
+            </p>
           </div>
-          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+            <Link href="/platform">Platform</Link>
+            <Link href="/digau-case">DIGau Case</Link>
             <Link href="/downloads">Downloads</Link>
-            <Link href="/disclosures">Disclosures</Link>
-            <Link href="/compliance">Compliance</Link>
             <Link href="/contact">Contact</Link>
           </div>
         </footer>
@@ -125,14 +136,10 @@ export default function BrokerDealerLayout({ children }: { children: React.React
           }}
         >
           <p>
-            Securities offered through UnyKorn partner channels are subject to applicable federal and state securities laws.
-            Participation is limited to qualified institutional buyers, accredited investors, and verified entities as
-            defined under Regulation D, Regulation S, and Regulation A+ of the Securities Act of 1933. All offerings
-            are made pursuant to available exemptions and are not registered with the SEC or any state securities
-            commission. Tokenized real-world assets are subject to additional regulatory requirements. Investment in
-            private securities and digital assets involves significant risk including possible total loss of principal.
-            Past performance does not guarantee future results. UnyKorn operates with FINRA member
-            broker-dealer and registered Alternative Trading System (ATS) partners. Member SIPC.
+            Digital securities, private placements, and restricted real-asset offerings are subject to applicable federal,
+            state, and international securities laws. Participation may be limited to qualified institutional buyers,
+            accredited investors, non-U.S. persons, or verified entities depending on the offering structure and governing
+            exemption. Nothing on this site constitutes an offer to sell or a solicitation to buy any security.
           </p>
         </div>
       </body>
